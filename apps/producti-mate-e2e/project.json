@@ -1,0 +1,22 @@
+{
+  "name": "producti-mate-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/producti-mate-e2e/src",
+  "targets": {
+    "e2e": {
+      "executor": "@nx/playwright:playwright",
+      "outputs": ["{workspaceRoot}/dist/.playwright/apps/producti-mate-e2e"],
+      "options": {
+        "config": "apps/producti-mate-e2e/playwright.config.ts"
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/producti-mate-e2e/**/*.{js,ts}"]
+      }
+    }
+  },
+  "implicitDependencies": ["producti-mate"]
+}
