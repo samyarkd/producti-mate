@@ -7,8 +7,10 @@
   },
   "private": true,
   "dependencies": {
+    "@heroicons/react": "^2.0.18",
     "@swc/helpers": "~0.5.2",
     "@tanstack/react-router": "^0.0.1-beta.194",
+    "@twa-dev/mark42": "^0.0.38",
     "@twa.js/sdk-react": "^0.4.2",
     "clsx": "^2.0.0",
     "react": "18.2.0",
