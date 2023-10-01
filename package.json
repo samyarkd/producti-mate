@@ -13,6 +13,7 @@
     "@twa-dev/mark42": "^0.0.38",
     "@twa.js/sdk-react": "^0.4.2",
     "clsx": "^2.0.0",
+    "jotai": "^2.4.3",
     "react": "18.2.0",
     "react-apple-emojis": "^2.2.1",
     "react-dom": "18.2.0"
