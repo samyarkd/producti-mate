@@ -1,14 +1,27 @@
+import indexRoute from "@/app"
+import NotFoundRoute from "@/app/404"
+import App from "@/app/app"
+import featureLayoutRoute from "@/app/feature-layout"
+import goalsRoute from "@/app/goals"
+import pomodoroRoute from "@/app/pomodoro"
+import reminderRoute from "@/app/reminder"
+import todoRoute from "@/app/todo"
 import { RootRoute, Router } from "@tanstack/react-router"
-import indexPage from "../app"
-import App from "../app/app"
-import pomodoroPage from "../app/pomodoro/page"
 
 export const rootRoute = new RootRoute({
   component: App,
 })
 
 // Create the route tree using your routes
-export const routeTree = rootRoute.addChildren([indexPage, pomodoroPage])
+export const routeTree = rootRoute.addChildren([
+  featureLayoutRoute,
+  indexRoute,
+  pomodoroRoute,
+  todoRoute,
+  reminderRoute,
+  goalsRoute,
+  NotFoundRoute
+])
 
 // Create the router using your route tree
 export const router = new Router({ routeTree })

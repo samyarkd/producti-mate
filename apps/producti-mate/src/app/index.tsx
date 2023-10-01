@@ -1,9 +1,10 @@
+import SimpleCard from "@/components/card/simple-card"
+import Feature from "@/components/feature"
+import Item from "@/components/item"
+import { rootRoute } from "@/components/router"
 import { Route } from "@tanstack/react-router"
 import { useInitData, useThemeParams } from "@twa.js/sdk-react"
-import SimpleCard from "../components/card/simple-card"
-import Feature from "../components/feature"
-import Item from "../components/item"
-import { rootRoute } from "../components/router"
+
 
 const Index = () => {
   const themeParams = useThemeParams()
@@ -26,7 +27,7 @@ const Index = () => {
         </Item>
         <Item>
           <Feature
-            to="/reminer"
+            to="/reminder"
             imgSrc="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/main/Objects/Tear%20Off%20Calendar.webp"
             title="Reminder" />
         </Item>
@@ -61,10 +62,10 @@ const Index = () => {
   )
 }
 
-const indexPage = new Route({
+const indexRoute = new Route({
   getParentRoute: () => rootRoute,
   path: '/',
   component: Index,
 })
 
-export default indexPage
+export default indexRoute

@@ -1,9 +1,9 @@
-import { Route, useRouter } from "@tanstack/react-router"
+import { rootRoute } from "@/components/router"
+import { Outlet, Route, useRouter } from "@tanstack/react-router"
 import { useBackButton, useWebApp } from "@twa.js/sdk-react"
 import { useEffect } from "react"
-import { rootRoute } from "../../components/router"
 
-const Pomodoro = () => {
+export function FeatureLayout() {
   const backButton = useBackButton()
   const webApp = useWebApp()
   const router = useRouter()
@@ -22,17 +22,15 @@ const Pomodoro = () => {
     // We know, that backButton and webApp will never change,
     // but let's follow React rules.
   }, [backButton, webApp])
-  return (
-    <div className="grid grid-cols-2 items-center justify-center">
-      hello
-    </div>
-  )
+
+
+  return <div className="p-8"><Outlet /></div>
 }
 
-const pomodoroPage = new Route({
+export const featureLayoutRoute = new Route({
   getParentRoute: () => rootRoute,
-  path: '/pomodoro',
-  component: Pomodoro,
+  component: FeatureLayout,
+  id: 'feature-layout',
 })
 
-export default pomodoroPage
+export default featureLayoutRoute
