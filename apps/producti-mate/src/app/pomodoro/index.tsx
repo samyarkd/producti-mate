@@ -91,19 +91,16 @@ const Pomodoro = () => {
   }
 
   return (
-    <div className="flex gap-16 flex-col items-center justify-center">
-      <h1 className="text-8xl">
+    <div className="flex pt-6 w-full gap-16 flex-col items-stretch justify-center">
+      <h1 className="text-8xl self-center">
         {String(minutes).padStart(2, '0')}:{String(seconds).padStart(2, '0')}
       </h1>
       {
-        isRunning ?
-          <button style={{
-            background: themeParams?.secondaryBackgroundColor || "gray",
-            borderColor: themeParams?.hintColor || "gray",
-          }} className="px-6 py-1 h-28 w-2/3 border border-solid font-semibold antialiased rounded-xl" onClick={toggleTimer}>Pause</button> :
-          <span style={{
-            backgroundColor: themeParams?.backgroundColor || "#15803d",
-          }} className="opacity-0">asd</span>
+        isRunning &&
+        <button style={{
+          background: themeParams?.secondaryBackgroundColor || "gray",
+          borderColor: themeParams?.hintColor || "gray",
+        }} className="px-6 py-1 h-28 w-2/3 self-center border border-solid font-semibold antialiased rounded-xl" onClick={toggleTimer}>Pause</button>
 
       }
 

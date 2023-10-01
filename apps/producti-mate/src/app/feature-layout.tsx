@@ -24,7 +24,7 @@ export function FeatureLayout() {
   }, [backButton, webApp])
 
 
-  return <div className="p-8"><Outlet /></div>
+  return <Outlet />
 }
 
 export const featureLayoutRoute = new Route({
