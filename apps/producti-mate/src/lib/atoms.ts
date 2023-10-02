@@ -1,6 +1,17 @@
-import { atomWithStorage } from "jotai/utils"
+import { atomWithStorage } from "jotai/utils";
 
-export const pomodoroTodyRoundsAtom = atomWithStorage<{ date: string; rounds: number }>("pomodoro-rounds", {
+export const pomodoroTodyRoundsAtom = atomWithStorage<{
+  date: string;
+  rounds: number;
+}>("pomodoro-rounds", {
   date: new Date().toDateString(),
   rounds: 0,
-})
+});
+
+export const todoListAtom = atomWithStorage<{
+  date: string;
+  todos: { id: number; text: string; done: boolean }[];
+}>("todos-atom", {
+  date: new Date().toDateString(),
+  todos: [],
+});
