@@ -236,7 +236,6 @@ function TodoList(props: TodoList) {
 // The main component that holds the state and logic of the app
 function TodoListApp() {
   const mainButton = useMainButton();
-  const themeParams = useThemeParams();
   // A state variable to store the todo items as an array of objects
   const [todos, setTodos] = useAtom(todoListAtom);
 

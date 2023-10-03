@@ -1,7 +1,8 @@
-import { ThemeProvider } from "@/components/theme-provider"
-import { Outlet } from "@tanstack/react-router"
-import { useThemeParams, useWebApp } from "@twa.js/sdk-react"
-import { useEffect } from "react"
+import { ThemeProvider } from "@/components/theme-provider";
+import { Toaster } from "@/components/ui/toaster";
+import { Outlet } from "@tanstack/react-router";
+import { useThemeParams, useWebApp } from "@twa.js/sdk-react";
+import { useEffect } from "react";
 
 export function App() {
   const webApp = useWebApp();
@@ -15,7 +16,7 @@ export function App() {
 
   return (
     <ThemeProvider
-      defaultTheme={themeParams.isDark ? "dark" : "light"} 
+      defaultTheme={themeParams.isDark ? "dark" : "light"}
       storageKey="vite-ui-theme"
     >
       <main
@@ -27,6 +28,7 @@ export function App() {
       >
         <Outlet />
       </main>
+      <Toaster />
     </ThemeProvider>
   );
 }
