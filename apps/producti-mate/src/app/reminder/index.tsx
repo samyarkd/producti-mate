@@ -46,6 +46,12 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Textarea } from "@/components/ui/textarea";
+import {
+  useAddReminder,
+  useDeleteReminder,
+  useReminders,
+  useUpdateReminder,
+} from "@/hooks/queries/reminders";
 import "react-clock/dist/Clock.css";
 import "react-time-picker/dist/TimePicker.css";
 
@@ -350,53 +356,76 @@ function Reminders(props: ReminderList) {
 }
 function Reminder() {
   const mainButton = useMainButton();
-  const [reminders, setReminders] = useState<Item[]>([
-    {
-      id: 1,
-      dor: new Date().toString(),
-      reminderText: "helllo",
-    },
-  ]);
+  const [reminders, setReminders] = useState<Item[]>([]);
+  const remindersQuery = useReminders();
+  const addReminder = useAddReminder();
+  const editReminder = useUpdateReminder();
+  const deleteReminder = useDeleteReminder();
 
   // if the date in the local storage is not today, clear the list
   function setItems(items: Item[]) {
     setReminders(items);
   }
 
-  // A function to generate a unique id for each item
-  function generateId() {
-    return Math.floor(Math.random() * 1000000);
-  }
-
   // A function to handle the submission of a new item
-  function handleAdd(data: z.infer<typeof FormSchema>) {
+  async function handleAdd(data: z.infer<typeof FormSchema>) {
+    const res = await addReminder.mutateAsync({
+      title: data.reminder,
+      remindAt: data.dor.toString(),
+    });
+
     setItems([
       ...reminders,
       {
-        id: generateId(),
-        dor: data.dor.toString(),
-        reminderText: data.reminder,
+        id: res.data.id,
+        dor: res.data.remindAt.toString(),
+        reminderText: res.data.title || "",
       },
     ]);
   }
 
   // A function to handle the edit of the text of an item
   function handleEdit(id: number, text: string) {
+    editReminder.mutate({
+      id,
+      title: text,
+    });
+
     setItems(
-      reminders.map((item) => (item.id === id ? { ...item, text } : item)),
+      reminders.map((item) => {
+        if (item.id === id) {
+          return {
+            ...item,
+            reminderText: text || "",
+          };
+        }
+        return item;
+      }),
     );
   }
 
   // A function to handle the delete of an item
   function handleDelete(id: number) {
+    deleteReminder.mutateAsync(id);
+
     setItems(reminders.filter((item) => item.id !== id));
   }
 
   useEffect(() => {
+    if (remindersQuery.data) {
+      setItems(
+        remindersQuery.data.data.map((reminder) => ({
+          id: reminder.id,
+          dor: reminder.remindAt.toString(),
+          reminderText: reminder.title || "",
+        })),
+      );
+    }
+
     return () => {
       mainButton.disable().hide();
     };
-  }, []);
+  }, [remindersQuery.data]);
 
   return (
     <div className="app">

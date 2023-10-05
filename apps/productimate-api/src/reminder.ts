@@ -16,10 +16,13 @@ import * as z from "zod";
 export const reminderRouter = Router();
 
 reminderRouter.get("/", (req, res) => {
+  const authHeader = req.headers["authorization"];
+  const userId = authHeader && authHeader.split(" ")[1];
+
   prisma.reminders
     .findMany({
       where: {
-        userId: parseInt(req.cookies.userId),
+        userId: parseInt(userId),
       },
     })
     .then((reminders) => {
@@ -31,11 +34,14 @@ reminderRouter.get("/", (req, res) => {
 });
 
 reminderRouter.get("/:id", (req, res) => {
+  const authHeader = req.headers["authorization"];
+  const userId = authHeader && authHeader.split(" ")[1];
+
   prisma.reminders
     .findUnique({
       where: {
         id: parseInt(req.params.id),
-        userId: parseInt(req.cookies.userId),
+        userId: parseInt(userId),
       },
     })
     .then((reminder) => {
@@ -57,6 +63,9 @@ const reminderSchema = z.object({
 });
 
 reminderRouter.post("/add", (req, res) => {
+  const authHeader = req.headers["authorization"];
+  const userId = authHeader && authHeader.split(" ")[1];
+
   const reminder = reminderSchema.safeParse(req.body);
 
   if (!reminder.success) {
@@ -73,7 +82,7 @@ reminderRouter.post("/add", (req, res) => {
         title: reminder?.data.title,
         body: reminder?.data.body,
 
-        userId: parseInt(req.cookies.userId),
+        userId: parseInt(userId),
       },
     })
     .then((reminder) => {
@@ -91,6 +100,9 @@ const reminderSchemaUpdate = z.object({
 });
 
 reminderRouter.put("/:id", (req, res) => {
+  const authHeader = req.headers["authorization"];
+  const userId = authHeader && authHeader.split(" ")[1];
+
   const reminder = reminderSchemaUpdate.safeParse(req.body);
 
   if (!reminder.success) {
@@ -106,7 +118,7 @@ reminderRouter.put("/:id", (req, res) => {
     .findUnique({
       where: {
         id: reminderId,
-        userId: parseInt(req.cookies.userId),
+        userId: parseInt(userId),
       },
     })
     .then((reminder) => {
@@ -129,7 +141,7 @@ reminderRouter.put("/:id", (req, res) => {
         title: reminder?.data.title,
         body: reminder?.data.body,
 
-        userId: parseInt(req.cookies.userId),
+        userId: parseInt(userId),
       },
     })
     .then((reminder) => {
@@ -141,13 +153,16 @@ reminderRouter.put("/:id", (req, res) => {
 });
 
 reminderRouter.delete("/:id", (req, res) => {
+  const authHeader = req.headers["authorization"];
+  const userId = authHeader && authHeader.split(" ")[1];
+
   const reminderId = parseInt(req.params.id);
   // check if it exists
   prisma.reminders
     .findUnique({
       where: {
         id: reminderId,
-        userId: parseInt(req.cookies.userId),
+        userId: parseInt(userId),
       },
     })
     .then((reminder) => {

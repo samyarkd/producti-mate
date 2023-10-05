@@ -1,11 +1,18 @@
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
+import cors from "cors";
 import express from "express";
 import * as path from "path";
 
 import { reminderRouter } from "./reminder";
 
 const app = express();
+
+const corsOptions = {
+  origin: "https://samyar-local.loca.lt",
+  credentials: true,
+};
+app.use(cors(corsOptions));
 
 app.use("/assets", express.static(path.join(__dirname, "assets")));
 
@@ -14,8 +21,11 @@ app.use(bodyParser.json());
 
 //This is the middleware function which will be called before any routes get hit which are defined after this point, i.e. in your index.js
 app.use(function (req, res, next) {
-  if (req.cookies) {
-    const userId = req.cookies?.userId;
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1];
+
+  if (token) {
+    const userId = token;
 
     if (userId && typeof Number(userId) === "number") {
       return next();
@@ -28,7 +38,7 @@ app.use(function (req, res, next) {
 });
 
 // use reminderRouter
-app.use("/reminders", reminderRouter);
+app.use("/api/reminders", reminderRouter);
 
 const port = process.env.PORT || 3333;
 const server = app.listen(port, () => {

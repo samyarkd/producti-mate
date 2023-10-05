@@ -8,8 +8,6 @@ export function App() {
   const webApp = useWebApp();
   const themeParams = useThemeParams();
 
-  // When App is attached to DOM, lets show back button and
-  // add "click" event handler, which should close current application.
   useEffect(() => {
     webApp.ready();
   }, [webApp]);
