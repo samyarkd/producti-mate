@@ -1,6 +1,8 @@
+import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import express from "express";
 import * as path from "path";
+
 import { reminderRouter } from "./reminder";
 
 const app = express();
@@ -8,6 +10,7 @@ const app = express();
 app.use("/assets", express.static(path.join(__dirname, "assets")));
 
 app.use(cookieParser());
+app.use(bodyParser.json());
 
 //This is the middleware function which will be called before any routes get hit which are defined after this point, i.e. in your index.js
 app.use(function (req, res, next) {

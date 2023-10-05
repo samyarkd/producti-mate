@@ -1,33 +1,175 @@
+/**
+ * There are 5 routes in this file
+ * 1. GET /reminder
+ * 2. GET /reminder/:id
+ * 3. POST /reminder/add
+ * 4. PUT /reminder/:id
+ * 5. DELETE /reminder/:id
+ *
+ * The routes are protected by a middleware that checks if the user is logged in using cookies.
+ */
+
+import { prisma } from "@producti-mate/shared";
 import { Router } from "express";
+import * as z from "zod";
 
 export const reminderRouter = Router();
 
 reminderRouter.get("/", (req, res) => {
-  res.json({
-    message: "all reminders 👋",
-  });
+  prisma.reminders
+    .findMany({
+      where: {
+        userId: parseInt(req.cookies.userId),
+      },
+    })
+    .then((reminders) => {
+      res.json(reminders);
+    })
+    .catch((err) => {
+      res.status(500).json({ error: err });
+    });
 });
 
 reminderRouter.get("/:id", (req, res) => {
-  res.json({
-    message: "reminder 👋",
-  });
+  prisma.reminders
+    .findUnique({
+      where: {
+        id: parseInt(req.params.id),
+        userId: parseInt(req.cookies.userId),
+      },
+    })
+    .then((reminder) => {
+      if (reminder) {
+        res.json(reminder);
+      } else {
+        res.status(404).json({ message: "reminder not found" });
+      }
+    })
+    .catch((err) => {
+      res.status(500).json({ error: err });
+    });
+});
+
+const reminderSchema = z.object({
+  remindAt: z.string(),
+  title: z.string().optional(),
+  body: z.string().optional(),
 });
 
 reminderRouter.post("/add", (req, res) => {
-  res.json({
-    message: "reminder added 👋",
-  });
+  const reminder = reminderSchema.safeParse(req.body);
+
+  if (!reminder.success) {
+    res
+      .status(400)
+      .json({ message: "Bad request data is invalid", data: req.body });
+    return;
+  }
+
+  prisma.reminders
+    .create({
+      data: {
+        remindAt: new Date(reminder.data.remindAt),
+        title: reminder?.data.title,
+        body: reminder?.data.body,
+
+        userId: parseInt(req.cookies.userId),
+      },
+    })
+    .then((reminder) => {
+      res.json(reminder);
+    })
+    .catch((err) => {
+      res.status(500).json({ error: err });
+    });
+});
+
+const reminderSchemaUpdate = z.object({
+  remindAt: z.string().optional(),
+  title: z.string().optional(),
+  body: z.string().optional(),
 });
 
 reminderRouter.put("/:id", (req, res) => {
-  res.json({
-    message: "reminder updated 👋",
-  });
+  const reminder = reminderSchemaUpdate.safeParse(req.body);
+
+  if (!reminder.success) {
+    res
+      .status(400)
+      .json({ message: "Bad request data is invalid", data: req.body });
+    return;
+  }
+
+  const reminderId = parseInt(req.params.id);
+  // check if it exists
+  prisma.reminders
+    .findUnique({
+      where: {
+        id: reminderId,
+        userId: parseInt(req.cookies.userId),
+      },
+    })
+    .then((reminder) => {
+      if (!reminder) {
+        res.status(404).json({ message: "reminder not found" });
+        return;
+      }
+    })
+    .catch((err) => {
+      res.status(500).json({ error: err });
+    });
+
+  prisma.reminders
+    .update({
+      where: {
+        id: parseInt(req.params.id),
+      },
+      data: {
+        remindAt: reminder.data.remindAt && new Date(reminder.data.remindAt),
+        title: reminder?.data.title,
+        body: reminder?.data.body,
+
+        userId: parseInt(req.cookies.userId),
+      },
+    })
+    .then((reminder) => {
+      res.json(reminder);
+    })
+    .catch((err) => {
+      res.status(500).json({ error: err });
+    });
 });
 
 reminderRouter.delete("/:id", (req, res) => {
-  res.json({
-    message: "reminder deleted 👋",
-  });
+  const reminderId = parseInt(req.params.id);
+  // check if it exists
+  prisma.reminders
+    .findUnique({
+      where: {
+        id: reminderId,
+        userId: parseInt(req.cookies.userId),
+      },
+    })
+    .then((reminder) => {
+      if (!reminder) {
+        res.status(404).json({ message: "reminder not found" });
+        return;
+      }
+    })
+    .catch((err) => {
+      res.status(500).json({ error: err });
+    });
+
+  prisma.reminders
+    .delete({
+      where: {
+        id: reminderId,
+      },
+    })
+    .then(() => {
+      res.json({ message: "reminder deleted" });
+    })
+    .catch((err) => {
+      res.status(500).json({ error: err });
+    });
 });

@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "dev": "npx nx run-many --target=serve"
+    "dev": "npx nx run-many --target=serve",
+    "dev:api": "npx nx serve productimate-api"
   },
   "private": true,
   "dependencies": {
@@ -23,11 +24,13 @@
     "@twa-dev/mark42": "^0.0.38",
     "@twa.js/sdk-react": "^0.4.2",
     "axios": "^1.0.0",
+    "body-parser": "^1.20.2",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "cookie-parser": "^1.4.6",
     "date-fns": "^2.30.0",
     "express": "^4.18.1",
+    "grammy": "^1.19.0",
     "jotai": "^2.4.3",
     "next-themes": "^0.2.1",
     "prisma": "^5.3.1",
@@ -44,6 +47,7 @@
   },
   "devDependencies": {
     "@nx/cypress": "16.9.1",
+    "@nx/esbuild": "^16.10.0",
     "@nx/eslint-plugin": "16.9.1",
     "@nx/express": "^16.9.1",
     "@nx/jest": "16.9.1",
@@ -70,6 +74,7 @@
     "@vitest/coverage-c8": "~0.32.0",
     "@vitest/ui": "~0.32.0",
     "autoprefixer": "10.4.13",
+    "esbuild": "^0.19.2",
     "eslint": "~8.46.0",
     "eslint-config-prettier": "8.1.0",
     "eslint-plugin-import": "2.27.5",
