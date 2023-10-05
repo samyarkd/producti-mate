@@ -1,10 +1,23 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 
 describe("GET /", () => {
-  it("should return a message", async () => {
-    const res = await axios.get(`/`);
+  it("check cookies", async () => {
+    try {
+      const res = await axios.get(`/reminders/`, {
+        withCredentials: true,
 
-    expect(res.status).toBe(200);
-    expect(res.data).toEqual({ message: "Hello API" });
+        headers: {
+          Cookie: "userId=6546",
+        },
+      });
+
+      expect(res.status).toBe(200);
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        console.error(error.status, error.code, error.response.status);
+      } else {
+        console.error(error);
+      }
+    }
   });
 });

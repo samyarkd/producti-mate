@@ -64,6 +64,7 @@ interface AddReminderProps {
 
 const AddReminder = (props: AddReminderProps) => {
   const [dateOpen, setDateOpen] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -75,11 +76,18 @@ const AddReminder = (props: AddReminderProps) => {
   function onSubmit(data: z.infer<typeof FormSchema>) {
     props.onAdd(data);
     form.reset();
+    setOpen(false);
   }
 
   return (
-    <Popover modal>
-      <PopoverTrigger>Add a New Reminder</PopoverTrigger>
+    <Popover modal open={open}>
+      <PopoverTrigger
+        onClick={() => {
+          setOpen(true);
+        }}
+      >
+        Add a New Reminder
+      </PopoverTrigger>
       <PopoverContent>
         <Form {...form}>
           <form
@@ -97,7 +105,9 @@ const AddReminder = (props: AddReminderProps) => {
                     <PopoverTrigger asChild>
                       <FormControl>
                         <Button
-                          onClick={() => setDateOpen(true)}
+                          onClick={() => {
+                            setDateOpen(true);
+                          }}
                           variant={"outline"}
                           className={cn(
                             "w-full pl-3 text-left font-normal",
