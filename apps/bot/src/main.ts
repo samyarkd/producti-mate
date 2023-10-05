@@ -1,8 +1,7 @@
-import { prisma } from "@producti-mate/shared";
-import { Bot } from "grammy";
+import { prisma, telBot } from "@producti-mate/shared";
 
 // Create an instance of the `Bot` class and pass your bot token to it.
-const bot = new Bot(process.env.BOT_TOKEN); // <-- put your bot token between the ""
+const bot = telBot; // <-- put your bot token between the ""
 
 bot.command("start", (ctx) => {
   prisma.user

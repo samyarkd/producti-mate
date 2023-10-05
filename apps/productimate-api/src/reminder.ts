@@ -9,8 +9,9 @@
  * The routes are protected by a middleware that checks if the user is logged in using cookies.
  */
 
-import { prisma } from "@producti-mate/shared";
+import { prisma, telBot } from "@producti-mate/shared";
 import { Router } from "express";
+import schedule from "node-schedule";
 import * as z from "zod";
 
 export const reminderRouter = Router();
@@ -75,13 +76,20 @@ reminderRouter.post("/add", (req, res) => {
     return;
   }
 
+  const sm = schedule.scheduleJob(
+    new Date(reminder.data.remindAt),
+    function () {
+      telBot.api.sendMessage(userId, "Reminder: \n\n" + reminder.data.title);
+      console.log("The world is going to end today.");
+    },
+  );
+
   prisma.reminders
     .create({
       data: {
         remindAt: new Date(reminder.data.remindAt),
         title: reminder?.data.title,
-        body: reminder?.data.body,
-
+        body: sm.name,
         userId: parseInt(userId),
       },
     })
@@ -166,6 +174,7 @@ reminderRouter.delete("/:id", (req, res) => {
       },
     })
     .then((reminder) => {
+      schedule.cancelJob(reminder.body);
       if (!reminder) {
         res.status(404).json({ message: "reminder not found" });
         return;
