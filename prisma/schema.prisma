@@ -16,6 +16,19 @@ model User {
   createdAt DateTime    @default(now())
   updatedAt DateTime    @updatedAt
   reminders Reminders[]
+
+  goals       Goal[] // A user can have many goals
+  GoalCreator GoalCreator[]
+}
+
+model GoalCreator {
+  id Int @id @default(autoincrement())
+
+  goalId Int
+  goal   Goal[]
+
+  userId Int
+  user   User @relation(fields: [userId], references: [id])
 }
 
 model Reminders {
@@ -28,4 +41,17 @@ model Reminders {
 
   userId Int
   user   User @relation(fields: [userId], references: [id])
+}
+
+model Goal {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  users User[]
+
+  creatorId   Int
+  goalCreator GoalCreator @relation(fields: [creatorId], references: [id])
 }
