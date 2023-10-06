@@ -10,7 +10,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
-import { Route } from "@tanstack/react-router";
+import { Link, Route } from "@tanstack/react-router";
 import { useMainButton } from "@twa.js/sdk-react";
 import { useEffect, useState } from "react";
 import featureLayoutRoute from "../feature-layout";
@@ -38,6 +38,7 @@ import { useAddGoal, useDeleteGoal, useGoals } from "@/hooks/queries/goals";
 import { GoalUser, User } from "@prisma/client";
 import "react-clock/dist/Clock.css";
 import "react-time-picker/dist/TimePicker.css";
+import goalRoute from "./goal";
 
 const FormSchema = z.object({
   title: z.string({
@@ -154,12 +155,12 @@ function GoalsTable(props: GoalTable) {
       </TableHeader>
       <TableBody>
         {props.items.map((item) => (
-          <TableRow>
+          <TableRow key={item.id}>
             <TableCell className={cn("ps-3 w-full")}>{item.title}</TableCell>
             <TableCell>
               <div className="flex -space-x-4">
                 {item.users.slice(0, 5).map((u) => (
-                  <Avatar>
+                  <Avatar key={u.id}>
                     <AvatarFallback>
                       {u?.user?.name && u?.user?.name[0]}
                     </AvatarFallback>
@@ -169,9 +170,16 @@ function GoalsTable(props: GoalTable) {
             </TableCell>
             <TableCell>{item.exp}</TableCell>
             <TableCell>
-              <Button variant="secondary" size="sm">
-                Open
-              </Button>
+              <Link
+                to={"/goals/$goalId"}
+                params={{
+                  goalId: item.id.toString(),
+                }}
+              >
+                <Button variant="secondary" size="sm">
+                  Open
+                </Button>
+              </Link>
             </TableCell>
           </TableRow>
         ))}
@@ -260,4 +268,6 @@ const goalsRoute = new Route({
   component: Goals,
 });
 
-export default goalsRoute;
+const GoalAndGoals = goalsRoute.addChildren([goalRoute]);
+
+export default GoalAndGoals;

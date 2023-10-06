@@ -8,6 +8,7 @@ import { axiosClient } from "./axiosClient";
  * 3. POST /goals/add
  * 4. PUT /goals/:id
  * 5. DELETE /goals/:id
+ * 6. GET /goals/add/user/:id
  */
 
 export const getGoals = async () => {
@@ -18,7 +19,7 @@ export const getGoals = async () => {
 
 export const getGoal = async (id: number) => {
   return await axiosClient.get<
-    GoalUser & { goal: Goal; users: (GoalUser & { user: User })[] }
+    GoalUser & { goal: Goal & { users: (GoalUser & { user: User })[] } }
   >(`/goals/${id}`);
 };
 
@@ -46,4 +47,8 @@ export const updateGoal = async ({
 
 export const deleteGoal = async (id: number) => {
   return await axiosClient.delete<{ message: "goal deleted" }>(`/goals/${id}`);
+};
+
+export const sendInviteLink = async (id: number) => {
+  return await axiosClient.get<{ message: string }>(`/goals/add/user/${id}`);
 };

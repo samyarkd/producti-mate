@@ -128,7 +128,7 @@ function TodoTable(props: TodoTable) {
               (props.filter === "not done" && !item.done),
           )
           .map((item) => (
-            <TableRow>
+            <TableRow key={item.id}>
               <TableCell
                 className={cn("ps-3 w-full", {
                   "line-through": item.done,

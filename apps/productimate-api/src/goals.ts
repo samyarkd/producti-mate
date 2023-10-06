@@ -7,8 +7,9 @@
  * 5. DELETE /goals/:id
  */
 
-import { prisma } from "@producti-mate/shared";
+import { prisma, telBot } from "@producti-mate/shared";
 import { Router } from "express";
+import { InlineKeyboard } from "grammy";
 import * as z from "zod";
 
 export const goalsRouter = Router();
@@ -175,5 +176,59 @@ goalsRouter.delete("/:id", (req, res) => {
         .catch((err) => {
           res.status(500).json({ error: err });
         });
+    });
+});
+
+goalsRouter.get("/add/user/:id", (req, res) => {
+  const authHeader = req.headers["authorization"];
+  const userId = authHeader && authHeader.split(" ")[1];
+  prisma.goalUser
+    .findUnique({
+      where: {
+        id: parseInt(req.params.id),
+        userId: parseInt(userId),
+      },
+      include: {
+        user: true,
+        goal: true,
+      },
+    })
+    .then((gu) => {
+      const inviteBtn = new InlineKeyboard().url(
+        "Accept invitation ✅",
+        `https://t.me/ProductiMatebot?start=gi=${gu.goalId}`,
+      );
+      telBot.api
+        .sendMessage(
+          gu.user.id,
+          `
+Do you want to accomplish a goal with ${gu.user.name}?
+
+🎯 Goal: ${gu.goal.title}
+
+📯 Description: ${gu.goal.description}
+
+Click on the bellow button to accept the invitation.
+`,
+          {
+            reply_markup: inviteBtn,
+          },
+        )
+        .then(() => {
+          telBot.api
+            .sendMessage(
+              gu.userId,
+              `Share the above link with your friends to invite them to your goal. 👆👆`,
+            )
+            .finally(() => {
+              res.json({ message: "invitation sent" });
+            });
+        })
+        .catch((err) => {
+          res.status(500).json({ error: err });
+        });
+    })
+    .catch((err) => {
+      res.status(500).json({ error: err });
     });
 });

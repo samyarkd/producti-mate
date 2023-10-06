@@ -280,7 +280,7 @@ function RemindersTable(props: ReminderTable) {
       </TableHeader>
       <TableBody>
         {props.items.map((item) => (
-          <TableRow>
+          <TableRow key={item.id}>
             <TableCell className={cn("ps-3 w-full")}>
               {editing === item.id ? (
                 <form className="flex w-full items-center space-x-2">

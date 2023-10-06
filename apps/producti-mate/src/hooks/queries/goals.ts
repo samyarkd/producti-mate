@@ -5,6 +5,7 @@ import {
   deleteGoal,
   getGoal,
   getGoals,
+  sendInviteLink,
   updateGoal,
 } from "@/lib/services/goals";
 
@@ -51,4 +52,8 @@ export const useDeleteGoal = () => {
       queryClient.invalidateQueries(["goals"]);
     },
   });
+};
+
+export const useSendInviteLink = () => {
+  return useMutation(sendInviteLink);
 };
