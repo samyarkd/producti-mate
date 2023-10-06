@@ -86,7 +86,7 @@ const AddReminder = (props: AddReminderProps) => {
   }
 
   return (
-    <Popover modal open={open}>
+    <Popover modal open={open} onOpenChange={(open) => setOpen(open)}>
       <PopoverTrigger
         onClick={() => {
           setOpen(true);

@@ -17,12 +17,15 @@ goalsRouter.get("/", (req, res) => {
   const authHeader = req.headers["authorization"];
   const userId = authHeader && authHeader.split(" ")[1];
 
-  prisma.goal
+  prisma.goalUser
     .findMany({
       where: {
-        users: {
-          some: {
-            id: parseInt(userId),
+        userId: parseInt(userId),
+      },
+      include: {
+        goal: {
+          include: {
+            users: { include: { user: true } },
           },
         },
       },
@@ -39,14 +42,18 @@ goalsRouter.get("/:id", (req, res) => {
   const authHeader = req.headers["authorization"];
   const userId = authHeader && authHeader.split(" ")[1];
 
-  prisma.goal
+  prisma.goalUser
     .findUnique({
       where: {
         id: parseInt(req.params.id),
-        creatorId: parseInt(userId),
+        userId: parseInt(userId),
       },
       include: {
-        users: true,
+        goal: {
+          include: {
+            users: { include: { user: true } },
+          },
+        },
       },
     })
     .then((goal) => {
@@ -81,20 +88,26 @@ goalsRouter.post("/add", (req, res) => {
       data: {
         title: req.body.title,
         description: req.body.description,
-        goalCreator: {
-          connectOrCreate: {
-            create: {
-              userId: parseInt(userId),
-            },
-            where: {
-              userId: parseInt(userId),
-            },
-          },
-        },
+        userId: parseInt(userId),
       },
     })
     .then((goal) => {
-      res.json(goal);
+      prisma.goalUser
+        .create({
+          data: {
+            goalId: goal.id,
+            userId: parseInt(userId),
+          },
+          include: {
+            goal: { include: { users: { include: { user: true } } } },
+          },
+        })
+        .then((goalUser) => {
+          res.json(goalUser);
+        })
+        .catch((err) => {
+          res.status(500).json({ error: err });
+        });
     })
     .catch((err) => {
       res.status(500).json({ error: err });
@@ -113,18 +126,29 @@ goalsRouter.put("/:id", (req, res) => {
     return;
   }
 
-  prisma.goal
-    .update({
+  prisma.goalUser
+    .findUnique({
       where: {
         id: parseInt(req.params.id),
       },
-      data: {
-        title: req.body.title,
-        description: req.body.description,
-      },
     })
-    .then((goal) => {
-      res.json(goal);
+    .then((goalUser) => {
+      prisma.goal
+        .update({
+          where: {
+            id: goalUser.goalId,
+          },
+          data: {
+            title: req.body.title,
+            description: req.body.description,
+          },
+        })
+        .then(() => {
+          res.json(goalUser);
+        })
+        .catch((err) => {
+          res.status(500).json({ error: err });
+        });
     })
     .catch((err) => {
       res.status(500).json({ error: err });
@@ -132,16 +156,24 @@ goalsRouter.put("/:id", (req, res) => {
 });
 
 goalsRouter.delete("/:id", (req, res) => {
-  prisma.goal
-    .delete({
+  prisma.goalUser
+    .findUnique({
       where: {
         id: parseInt(req.params.id),
       },
     })
-    .then((goal) => {
-      res.json(goal);
-    })
-    .catch((err) => {
-      res.status(500).json({ error: err });
+    .then((goalUser) => {
+      prisma.goal
+        .delete({
+          where: {
+            id: goalUser.id,
+          },
+        })
+        .then((goal) => {
+          res.json(goal);
+        })
+        .catch((err) => {
+          res.status(500).json({ error: err });
+        });
     });
 });
