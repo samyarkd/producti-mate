@@ -4,6 +4,7 @@ import cors from "cors";
 import express from "express";
 import * as path from "path";
 
+import { goalsRouter } from "./goals";
 import { reminderRouter } from "./reminder";
 
 const app = express();
@@ -39,6 +40,7 @@ app.use(function (req, res, next) {
 
 // use reminderRouter
 app.use("/api/reminders", reminderRouter);
+app.use("/api/goals", goalsRouter);
 
 const port = process.env.PORT || 3333;
 const server = app.listen(port, () => {
