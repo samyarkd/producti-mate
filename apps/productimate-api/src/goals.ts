@@ -52,7 +52,7 @@ goalsRouter.get("/:id", (req, res) => {
       include: {
         goal: {
           include: {
-            users: { include: { user: true } },
+            users: { include: { user: true }, orderBy: { exp: "desc" } },
           },
         },
       },
@@ -121,6 +121,8 @@ const updateGoalScheme = z.object({
 });
 
 goalsRouter.put("/:id", (req, res) => {
+  const authHeader = req.headers["authorization"];
+  const userId = authHeader && authHeader.split(" ")[1];
   const goal = updateGoalScheme.safeParse(req.body);
   if (!goal.success) {
     res.status(400).json({ error: "Bad data" });
@@ -131,6 +133,7 @@ goalsRouter.put("/:id", (req, res) => {
     .findUnique({
       where: {
         id: parseInt(req.params.id),
+        userId: parseInt(userId),
       },
     })
     .then((goalUser) => {
@@ -157,10 +160,14 @@ goalsRouter.put("/:id", (req, res) => {
 });
 
 goalsRouter.delete("/:id", (req, res) => {
+  const authHeader = req.headers["authorization"];
+  const userId = authHeader && authHeader.split(" ")[1];
+
   prisma.goalUser
     .findUnique({
       where: {
         id: parseInt(req.params.id),
+        userId: parseInt(userId),
       },
     })
     .then((goalUser) => {
@@ -182,6 +189,7 @@ goalsRouter.delete("/:id", (req, res) => {
 goalsRouter.get("/add/user/:id", (req, res) => {
   const authHeader = req.headers["authorization"];
   const userId = authHeader && authHeader.split(" ")[1];
+
   prisma.goalUser
     .findUnique({
       where: {
@@ -227,6 +235,31 @@ Click on the bellow button to accept the invitation.
         .catch((err) => {
           res.status(500).json({ error: err });
         });
+    })
+    .catch((err) => {
+      res.status(500).json({ error: err });
+    });
+});
+
+goalsRouter.put("/finish/:id", (req, res) => {
+  const authHeader = req.headers["authorization"];
+  const userId = authHeader && authHeader.split(" ")[1];
+
+  prisma.goalUser
+    .update({
+      where: {
+        id: parseInt(req.params.id),
+        userId: parseInt(userId),
+      },
+      data: {
+        exp: {
+          increment: 10,
+        },
+        lastFinish: new Date(new Date().toDateString()),
+      },
+    })
+    .then((goalUser) => {
+      res.json(goalUser);
     })
     .catch((err) => {
       res.status(500).json({ error: err });

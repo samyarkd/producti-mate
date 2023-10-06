@@ -52,3 +52,7 @@ export const deleteGoal = async (id: number) => {
 export const sendInviteLink = async (id: number) => {
   return await axiosClient.get<{ message: string }>(`/goals/add/user/${id}`);
 };
+
+export const finishDailyGoal = async (id: number) => {
+  return await axiosClient.put<{ message: string }>(`/goals/finish/${id}`);
+};

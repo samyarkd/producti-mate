@@ -3,6 +3,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   addGoal,
   deleteGoal,
+  finishDailyGoal,
   getGoal,
   getGoals,
   sendInviteLink,
@@ -56,4 +57,15 @@ export const useDeleteGoal = () => {
 
 export const useSendInviteLink = () => {
   return useMutation(sendInviteLink);
+};
+
+export const useFinishDailyGoal = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: finishDailyGoal,
+    onSuccess: (_, id) => {
+      queryClient.invalidateQueries(["goal", id]);
+    },
+  });
 };

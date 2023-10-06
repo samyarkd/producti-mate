@@ -19,7 +19,11 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useGoal, useSendInviteLink } from "@/hooks/queries/goals";
+import {
+  useFinishDailyGoal,
+  useGoal,
+  useSendInviteLink,
+} from "@/hooks/queries/goals";
 import { Goal } from "@prisma/client";
 import "react-clock/dist/Clock.css";
 import "react-time-picker/dist/TimePicker.css";
@@ -96,6 +100,7 @@ function Goals() {
   const [users, setUsers] = useState<Item[]>([]);
   const params = useParams({ from: "/feature-layout/goals/$goalId" });
   const getGoal = useGoal(parseInt(params.goalId));
+  const finishDailyTask = useFinishDailyGoal();
 
   // if the date in the local storage is not today, clear the list
   function setItems(items: Item[]) {
@@ -112,6 +117,25 @@ function Goals() {
         })),
       );
     }
+
+    if (getGoal.data?.data?.lastFinish) {
+      if (
+        new Date(getGoal.data?.data?.lastFinish).toDateString() !==
+        new Date().toDateString()
+      ) {
+        mainButton.setText("Finish Daily Goal For Today").enable().show();
+      }
+    } else {
+      mainButton.setText("Finish Daily Goal For Today").enable().show();
+    }
+
+    mainButton.on("click", () => {
+      if (getGoal?.data?.data?.id) {
+        finishDailyTask.mutateAsync(getGoal.data?.data.id);
+      }
+
+      mainButton.disable().hide();
+    });
 
     return () => {
       mainButton.disable().hide();
