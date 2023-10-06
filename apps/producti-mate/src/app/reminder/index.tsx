@@ -137,7 +137,11 @@ const AddReminder = (props: AddReminderProps) => {
                           field.onChange(date);
                           setDateOpen(false);
                         }}
-                        disabled={(date) => date <= new Date()}
+                        disabled={(date) => {
+                          const today = new Date();
+                          today.setHours(0, 0, 0, 0);
+                          return date < today;
+                        }}
                         initialFocus
                       />
                     </PopoverContent>
@@ -145,7 +149,7 @@ const AddReminder = (props: AddReminderProps) => {
                   <Input
                     type="time"
                     className="appearance-none"
-                    defaultValue={"09:00"}
+                    defaultValue={format(new Date(), "HH:mm")}
                     onChange={(time) => {
                       // handle if the time i cleared
                       if (!time.target.value) {
@@ -158,6 +162,8 @@ const AddReminder = (props: AddReminderProps) => {
                       date.setMinutes(parseInt(minutes));
                       field.onChange(date);
                     }}
+                    // i want the time to be invalid if it's before now
+                    min={format(new Date(), "HH:mm")}
                   />
                   <FormDescription>
                     You will get the reminder message in this date
