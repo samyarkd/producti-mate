@@ -1,3 +1,5 @@
+import "dotenv/config";
+
 import { prisma, telBot } from "@producti-mate/shared";
 import { InlineKeyboard } from "grammy";
 
@@ -31,7 +33,7 @@ bot.use(async (ctx, next) => {
         if (gameUser) {
           const goalBtn = new InlineKeyboard().webApp(
             "Goal Details",
-            `https://samyar-local.loca.lt/goals/${gameUser.id}`,
+            `${process.env.API_URL}/goals/${gameUser.id}`,
           );
           ctx.reply(
             "You already joined this goal. Click on the 'Goal Details' button to see your goal.",
@@ -50,7 +52,7 @@ bot.use(async (ctx, next) => {
 
           const goalBtn = new InlineKeyboard().webApp(
             "Goal Details",
-            `https://samyar-local.loca.lt/goals/${gameUser.id}`,
+            `${process.env.API_URL}/goals/${gameUser.id}`,
           );
 
           ctx.reply(

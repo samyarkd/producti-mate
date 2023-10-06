@@ -1,3 +1,5 @@
+import "dotenv/config";
+
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import cors from "cors";
@@ -10,7 +12,7 @@ import { reminderRouter } from "./reminder";
 const app = express();
 
 const corsOptions = {
-  origin: "https://samyar-local.loca.lt",
+  origin: process.env.PUBLIC_ROOT_URL,
   credentials: true,
 };
 app.use(cors(corsOptions));
