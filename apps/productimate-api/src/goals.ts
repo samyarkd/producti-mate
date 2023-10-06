@@ -164,17 +164,16 @@ goalsRouter.delete("/:id", (req, res) => {
   const userId = authHeader && authHeader.split(" ")[1];
 
   prisma.goalUser
-    .findUnique({
+    .deleteMany({
       where: {
-        id: parseInt(req.params.id),
-        userId: parseInt(userId),
+        goalId: parseInt(req.params.id),
       },
     })
-    .then((goalUser) => {
+    .then(() => {
       prisma.goal
         .delete({
           where: {
-            id: goalUser.id,
+            id: parseInt(req.params.id),
           },
         })
         .then((goal) => {

@@ -34,7 +34,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Textarea } from "@/components/ui/textarea";
-import { useAddGoal, useDeleteGoal, useGoals } from "@/hooks/queries/goals";
+import { useAddGoal, useGoals } from "@/hooks/queries/goals";
 import { GoalUser, User } from "@prisma/client";
 import "react-clock/dist/Clock.css";
 import "react-time-picker/dist/TimePicker.css";
@@ -137,7 +137,6 @@ type Item = {
 
 interface GoalTable {
   items: Item[];
-  onDelete: (id: number) => void;
 }
 
 function GoalsTable(props: GoalTable) {
@@ -191,13 +190,12 @@ function GoalsTable(props: GoalTable) {
 interface GoalsListT {
   items: Item[];
   onAdd: (data: z.infer<typeof FormSchema>) => void;
-  onDelete: (id: number) => void;
 }
 
 function GoalsList(props: GoalsListT) {
   return (
     <div className="flex flex-col gap-4">
-      <GoalsTable items={props.items} onDelete={props.onDelete} />
+      <GoalsTable items={props.items} />
 
       <AddGoal onAdd={props.onAdd} />
     </div>
@@ -208,7 +206,6 @@ function Goals() {
   const [goals, setGoals] = useState<Item[]>([]);
 
   const getGoals = useGoals();
-  const deleteGoal = useDeleteGoal();
   const addGoal = useAddGoal();
 
   // if the date in the local storage is not today, clear the list
@@ -231,13 +228,6 @@ function Goals() {
     ]);
   }
 
-  // A function to handle the delete of an item
-  function handleDelete(id: number) {
-    deleteGoal.mutateAsync(id);
-
-    setItems(goals.filter((item) => item.id !== id));
-  }
-
   useEffect(() => {
     if (getGoals.data) {
       setItems(
@@ -257,7 +247,7 @@ function Goals() {
 
   return (
     <div className="app">
-      <GoalsList items={goals} onAdd={handleAdd} onDelete={handleDelete} />
+      <GoalsList items={goals} onAdd={handleAdd} />
     </div>
   );
 }

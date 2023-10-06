@@ -38,8 +38,9 @@ export const useUpdateGoal = () => {
 
   return useMutation({
     mutationFn: updateGoal,
-    onSuccess: () => {
+    onSuccess: (_, { id }) => {
       queryClient.invalidateQueries(["goals"]);
+      queryClient.invalidateQueries(["goal", id]);
     },
   });
 };
