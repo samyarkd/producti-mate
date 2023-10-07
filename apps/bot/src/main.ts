@@ -1,7 +1,7 @@
-import "dotenv/config";
+import "dotenv/config"
 
-import { prisma, telBot } from "@producti-mate/shared";
-import { InlineKeyboard } from "grammy";
+import { prisma, telBot } from "@producti-mate/shared"
+import { InlineKeyboard } from "grammy"
 
 // Create an instance of the `Bot` class and pass your bot token to it.
 const bot = telBot; // <-- put your bot token between the ""
@@ -78,6 +78,14 @@ bot.command("start", async (ctx) => {
       },
     });
 
+    let pfpUrl: null | string = null 
+    try {
+      const pfp = (await ctx.getUserProfilePhotos({limit: 1})).photos[0][0].file_id;
+      pfpUrl = (await ctx.api.getFile(pfp)).file_path;
+    } catch (error) {
+      // 
+    }
+
     await prisma.user.upsert({
       where: {
         id: ctx.message?.from?.id,
@@ -86,6 +94,7 @@ bot.command("start", async (ctx) => {
       create: {
         id: ctx.message?.from?.id,
         name: ctx.message?.from?.first_name,
+        pfp: pfpUrl,
       },
     });
 

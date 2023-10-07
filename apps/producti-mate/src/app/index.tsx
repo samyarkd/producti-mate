@@ -38,26 +38,6 @@ const Index = () => {
             title="Goals" />
         </Item>
       </div>
-
-      {/* Quote of the day */}
-      <div className="text-center">
-        <p style={{
-          color: themeParams.hintColor || 'gray',
-        }} >Quote of the day</p>
-        <p
-          style={{
-            color: themeParams.textColor || 'black',
-          }}
-          className="text-xl opacity-95">"The best way to get started is to quit talking and begin doing."</p>
-        <p style={{
-          color: themeParams.hintColor || 'gray',
-        }} >- Walt Disney</p>
-      </div>
-
-      {/* User Profile Page */}
-      <div className="px-4">
-        <SimpleCard initials={initData?.user?.firstName[0] || ""} name={initData?.user?.firstName + " " + initData?.user?.lastName} />
-      </div>
     </div>
   )
 }

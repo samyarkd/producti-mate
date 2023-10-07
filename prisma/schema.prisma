@@ -16,6 +16,7 @@ model User {
   createdAt DateTime    @default(now())
   updatedAt DateTime    @updatedAt
   reminders Reminders[]
+  pfp       String?
 
   goals     Goal[] // A user can have many goals
   goalUsers GoalUser[]
