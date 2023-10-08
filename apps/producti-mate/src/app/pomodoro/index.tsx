@@ -21,34 +21,26 @@ const Pomodoro = () => {
   const [pomodoroTodyRounds, setPomodoroTodyRounds] = useAtom(
     pomodoroTodyRoundsAtom,
   );
-  const [paused, setPaused] = useState(false);
 
   useEffect(() => {
     habticFeedback.impactOccurred("soft");
     if (isRunning) {
       mainButton.setText("Reset").setBackgroundColor("#dc2626").enable().show();
-      mainButton.on("click", () => {
-        resetTimer();
-      });
     } else {
-      if (paused) {
-        mainButton
-          .setText("Resume")
-          .setBackgroundColor(themeParams?.buttonColor || "#15803d")
-          .enable()
-          .show();
-      } else {
-        mainButton
-          .setText("Start")
-          .setBackgroundColor(themeParams?.buttonColor || "#15803d")
-          .enable()
-          .show();
-      }
-
-      mainButton.on("click", () => {
-        toggleTimer();
-      });
+      mainButton
+        .setText("Start")
+        .setBackgroundColor(themeParams?.buttonColor || "#15803d")
+        .enable()
+        .show();
     }
+
+    mainButton.on("click", () => {
+      if (isRunning) {
+        resetTimer();
+      } else {
+        toggleTimer();
+      }
+    });
 
     return () => {
       mainButton.disable().hide();
@@ -110,21 +102,6 @@ const Pomodoro = () => {
       <h1 className="text-8xl self-center">
         {String(minutes).padStart(2, "0")}:{String(seconds).padStart(2, "0")}
       </h1>
-      {isRunning && (
-        <button
-          style={{
-            background: themeParams?.secondaryBackgroundColor || "gray",
-            borderColor: themeParams?.hintColor || "gray",
-          }}
-          className="px-6 py-1 h-28 w-2/3 self-center border border-solid font-semibold antialiased rounded-xl"
-          onClick={() => {
-            toggleTimer();
-            setPaused(true);
-          }}
-        >
-          Pause
-        </button>
-      )}
 
       {/* show rounds */}
       <div className="flex flex-col gap-4 items-center justify-center">
