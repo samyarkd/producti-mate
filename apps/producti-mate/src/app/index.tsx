@@ -5,7 +5,7 @@ import { Route } from "@tanstack/react-router";
 
 const Index = () => {
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col pt-6 gap-6">
       <div className="grid grid-cols-2 pt-2 gap-y-4 items-center justify-center">
         <Item>
           <Feature

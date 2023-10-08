@@ -19,9 +19,9 @@ const Feature = ({ imgSrc, title, to }: FeatureProps) => {
           style={{
             backgroundColor: themeParams.secondaryBackgroundColor || undefined,
           }}
-          className={`text-4xl min-h-25 p-3 rounded-full shadow`}
+          className={`text-4xl p-3 rounded-full shadow`}
         >
-          <img className="w-20" src={imgSrc} />
+          <img className="w-20 h-20" src={imgSrc} />
         </div>
         <div
           style={{

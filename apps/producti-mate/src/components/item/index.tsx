@@ -1,9 +1,20 @@
-import { ReactNode } from "react"
+import { cn } from "@/lib/utils";
+import { ReactNode } from "react";
 
-function Item({ children }: { children: ReactNode }) {
+function Item({
+  children,
+  className,
+}: {
+  children: ReactNode;
+  className?: string;
+}) {
   return (
-    <div className="text-center flex items-center justify-center">{children}</div>
-  )
+    <div
+      className={cn("text-center flex items-center justify-center", className)}
+    >
+      {children}
+    </div>
+  );
 }
 
-export default Item
+export default Item;
