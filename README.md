@@ -14,6 +14,10 @@ This is the MVP version and it has 4 core features:
 ## React App docs
 [Read the React app docs](./apps/producti-mate/README.md)
 
+## Express App docs
+[Read the ExpressJs app docs](./apps/productimate-api/README.md)
+
+
 ## Structure
 We used *Nx* as our monorepo manager because we are mostlikely going to have a Telegram Bot and we do. It helps us to manage our codebase and also to scale it in the future. We have 3 main projects in our monorepo:
 

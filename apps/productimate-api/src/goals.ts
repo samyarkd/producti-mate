@@ -1,10 +1,12 @@
 /**
- * This file has 5 routes:
+ * This file has 7 routes:
  * 1. GET /goals
  * 2. GET /goals/:id
  * 3. POST /goals/add
  * 4. PUT /goals/:id
  * 5. DELETE /goals/:id
+ * 6. GET /goals/add/user/:id
+ * 7. PUT /goals/finish/:id
  */
 
 import { prisma, telBot } from "@producti-mate/shared";
