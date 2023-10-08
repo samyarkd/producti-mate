@@ -64,7 +64,7 @@ bot.use(async (ctx, next) => {
         const gameUser = await prisma.goalUser.findFirst({
           where: {
             goalId: parseInt(gi),
-            userId: ctx.msg.from.id.toString(),
+            userId: ctx.from.id.toString(),
           },
         });
 
@@ -84,7 +84,7 @@ bot.use(async (ctx, next) => {
           const gameUser = await prisma.goalUser.create({
             data: {
               goalId: parseInt(gi),
-              userId: ctx.msg.from.id.toString(),
+              userId: ctx.from.id.toString(),
             },
           });
 
