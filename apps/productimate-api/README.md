@@ -6,4 +6,4 @@ Nothing special just a simple expressJs app.
 - **Prisma** for ORM
 
 ## Note
-We have to main routes witch are **Reminders** and **Goals**. they are seperated using two files.
+We have two main routes witch are **Reminders** and **Goals**. they are seperated using two files.
