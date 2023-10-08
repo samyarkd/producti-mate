@@ -4,7 +4,7 @@ import axios from "axios";
 import React, { useEffect } from "react";
 
 export const axiosClient = axios.create({
-  baseURL: `${process.env.API_URL}/api/`,
+  baseURL: import.meta.env.VITE_API_URL + "/api/",
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",
@@ -17,8 +17,6 @@ function AxiosClient({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     axiosClient.interceptors.request.use((config) => {
-      console.log(initData);
-
       if (initData) {
         // set Authorization header
         config.headers.Authorization = `Bearer ${initData.user?.id}`;

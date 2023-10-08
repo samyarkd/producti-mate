@@ -15,3 +15,6 @@ export const todoListAtom = atomWithStorage<{
   date: new Date().toDateString(),
   todos: [],
 });
+
+// first time user using the mini-app (used to show the user the stories)
+export const isNewUserAtom = atomWithStorage("is-new-user", false);

@@ -19,10 +19,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   Form,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -89,15 +88,12 @@ const AddGoal = (props: AddGoalProps) => {
               rules={{ required: true }}
               render={({ field }) => (
                 <FormItem className="flex flex-col">
-                  <FormLabel>Remind me at</FormLabel>
+                  <FormLabel>Title</FormLabel>
                   <Input
                     required
                     value={field.value}
                     onChange={field.onChange}
                   />
-                  <FormDescription>
-                    You will get the goal message in this date
-                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -160,6 +156,7 @@ function GoalsTable(props: GoalTable) {
               <div className="flex -space-x-4">
                 {item.users.slice(0, 5).map((u) => (
                   <Avatar key={u.id}>
+                    <AvatarImage src={u?.user?.pfp || ""} />
                     <AvatarFallback>
                       {u?.user?.name && u?.user?.name[0]}
                     </AvatarFallback>

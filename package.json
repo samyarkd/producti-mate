@@ -51,6 +51,7 @@
     "react-day-picker": "^8.8.2",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.47.0",
+    "react-insta-stories": "^2.6.2",
     "react-time-picker": "^6.5.1",
     "tailwind-merge": "^1.14.0",
     "tailwindcss-animate": "^1.0.7",

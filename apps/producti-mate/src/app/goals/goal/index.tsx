@@ -13,6 +13,7 @@ import { useMainButton } from "@twa.js/sdk-react";
 import { useEffect, useState } from "react";
 
 import featureLayoutRoute from "@/app/feature-layout";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button, ButtonWithConfirm } from "@/components/ui/button";
 import {
   Form,
@@ -67,6 +68,7 @@ const ShareGoal = (props: { goal?: Goal }) => {
 
 type Item = {
   id: number;
+  pfp?: string;
   name: string;
   exp: number;
 };
@@ -82,14 +84,21 @@ function LeaderboardTable(props: GoalTable) {
       <TableCaption>You can also tap the goal to open it</TableCaption>
       <TableHeader>
         <TableRow>
-          <TableHead className="ps-3">Name</TableHead>
+          <TableHead className="ps-3">PFP</TableHead>
+          <TableHead>Name</TableHead>
           <TableHead>Exp</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
         {props?.items?.map((item) => (
           <TableRow key={item.id}>
-            <TableCell className={cn("ps-3 w-full")}>{item.name}</TableCell>
+            <TableCell className={cn("ps-3")}>
+              <Avatar>
+                <AvatarImage src={item?.pfp || ""} />
+                <AvatarFallback>{item?.name && item?.name[0]}</AvatarFallback>
+              </Avatar>
+            </TableCell>
+            <TableCell className="w-full">{item.name}</TableCell>
             <TableCell>{item.exp}</TableCell>
           </TableRow>
         ))}
@@ -272,6 +281,7 @@ function Goals() {
       setItems(
         getGoal?.data?.data?.goal.users?.map((goalUser) => ({
           id: goalUser.id,
+          pfp: goalUser.user.pfp || "",
           name: goalUser.user.name || "",
           exp: goalUser.exp || 0,
         })),
