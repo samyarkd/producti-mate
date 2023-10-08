@@ -8,8 +8,6 @@ import GoalData from "@/components/goals/gole/goal-data";
 import Leaderboard from "@/components/goals/gole/leaderboard";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useFinishDailyGoal, useGoal } from "@/hooks/queries/goals";
-import "react-clock/dist/Clock.css";
-import "react-time-picker/dist/TimePicker.css";
 
 function Goals() {
   const mainButton = useMainButton();
