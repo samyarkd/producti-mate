@@ -71,7 +71,7 @@ bot.use(async (ctx, next) => {
         if (gameUser) {
           const goalBtn = new InlineKeyboard().webApp(
             "Goal Details",
-            `${process.env.API_URL}/goals/${gameUser.id}`,
+            `${process.env.API_URL}/goals/${gameUser.goalId}`,
           );
           ctx.reply(
             "You already joined this goal. Click on the 'Goal Details' button to see your goal.",
@@ -90,7 +90,7 @@ bot.use(async (ctx, next) => {
 
           const goalBtn = new InlineKeyboard().webApp(
             "Goal Details",
-            `${process.env.API_URL}/goals/${gameUser.id}`,
+            `${process.env.API_URL}/goals/${gameUser.goalId}`,
           );
 
           ctx.reply(
