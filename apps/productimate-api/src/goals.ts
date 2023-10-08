@@ -21,7 +21,7 @@ goalsRouter.get("/", (req, res) => {
   prisma.goalUser
     .findMany({
       where: {
-        userId: parseInt(userId),
+        userId,
       },
       include: {
         goal: {
@@ -47,7 +47,7 @@ goalsRouter.get("/:id", (req, res) => {
     .findUnique({
       where: {
         id: parseInt(req.params.id),
-        userId: parseInt(userId),
+        userId,
       },
       include: {
         goal: {
@@ -89,7 +89,7 @@ goalsRouter.post("/add", (req, res) => {
       data: {
         title: req.body.title,
         description: req.body.description,
-        userId: parseInt(userId),
+        userId,
       },
     })
     .then((goal) => {
@@ -97,7 +97,7 @@ goalsRouter.post("/add", (req, res) => {
         .create({
           data: {
             goalId: goal.id,
-            userId: parseInt(userId),
+            userId,
           },
           include: {
             goal: { include: { users: { include: { user: true } } } },
@@ -133,7 +133,7 @@ goalsRouter.put("/:id", (req, res) => {
     .findUnique({
       where: {
         id: parseInt(req.params.id),
-        userId: parseInt(userId),
+        userId,
       },
     })
     .then((goalUser) => {
@@ -193,7 +193,7 @@ goalsRouter.get("/add/user/:id", (req, res) => {
     .findUnique({
       where: {
         id: parseInt(req.params.id),
-        userId: parseInt(userId),
+        userId,
       },
       include: {
         user: true,
@@ -248,7 +248,7 @@ goalsRouter.put("/finish/:id", (req, res) => {
     .update({
       where: {
         id: parseInt(req.params.id),
-        userId: parseInt(userId),
+        userId,
       },
       data: {
         exp: {

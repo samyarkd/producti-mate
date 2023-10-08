@@ -11,7 +11,7 @@ datasource db {
 }
 
 model User {
-  id        Int         @id
+  id        String      @id
   name      String?
   createdAt DateTime    @default(now())
   updatedAt DateTime    @updatedAt
@@ -28,8 +28,8 @@ model GoalUser {
   lastFinish DateTime?
   goal       Goal      @relation(fields: [goalId], references: [id])
 
-  userId Int
-  user   User @relation(fields: [userId], references: [id])
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
   goalId Int
 }
 
@@ -41,8 +41,8 @@ model Reminders {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  userId Int
-  user   User @relation(fields: [userId], references: [id])
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
 }
 
 model Goal {
@@ -54,6 +54,6 @@ model Goal {
 
   users GoalUser[]
 
-  User   User @relation(fields: [userId], references: [id])
-  userId Int
+  User   User   @relation(fields: [userId], references: [id])
+  userId String
 }

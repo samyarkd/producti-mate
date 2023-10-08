@@ -15,7 +15,7 @@ bot.use(async (ctx, next) => {
       try {
         const doesExist = await prisma.user.findUnique({
           where: {
-            id: ctx.message?.from?.id,
+            id: ctx.message?.from?.id.toString(),
           },
         });
 
@@ -34,11 +34,11 @@ bot.use(async (ctx, next) => {
 
       await prisma.user.upsert({
         where: {
-          id: ctx.message?.from?.id,
+          id: ctx.message?.from?.id.toString(),
         },
         update: {},
         create: {
-          id: ctx.message?.from?.id,
+          id: ctx.message?.from?.id.toString(),
           name: ctx.message?.from?.first_name,
           pfp: pfpUrl,
         },
@@ -64,7 +64,7 @@ bot.use(async (ctx, next) => {
         const gameUser = await prisma.goalUser.findFirst({
           where: {
             goalId: parseInt(gi),
-            userId: ctx.msg.from.id,
+            userId: ctx.msg.from.id.toString(),
           },
         });
 
@@ -84,7 +84,7 @@ bot.use(async (ctx, next) => {
           const gameUser = await prisma.goalUser.create({
             data: {
               goalId: parseInt(gi),
-              userId: ctx.msg.from.id,
+              userId: ctx.msg.from.id.toString(),
             },
           });
 

@@ -23,7 +23,7 @@ reminderRouter.get("/", (req, res) => {
   prisma.reminders
     .findMany({
       where: {
-        userId: parseInt(userId),
+        userId,
       },
     })
     .then((reminders) => {
@@ -42,7 +42,7 @@ reminderRouter.get("/:id", (req, res) => {
     .findUnique({
       where: {
         id: parseInt(req.params.id),
-        userId: parseInt(userId),
+        userId,
       },
     })
     .then((reminder) => {
@@ -90,7 +90,7 @@ reminderRouter.post("/add", (req, res) => {
         remindAt: new Date(reminder.data.remindAt),
         title: reminder?.data.title,
         body: sm.name,
-        userId: parseInt(userId),
+        userId,
       },
     })
     .then((reminder) => {
@@ -126,7 +126,7 @@ reminderRouter.put("/:id", (req, res) => {
     .findUnique({
       where: {
         id: reminderId,
-        userId: parseInt(userId),
+        userId,
       },
     })
     .then((reminder) => {
@@ -149,7 +149,7 @@ reminderRouter.put("/:id", (req, res) => {
         title: reminder?.data.title,
         body: reminder?.data.body,
 
-        userId: parseInt(userId),
+        userId,
       },
     })
     .then((reminder) => {
@@ -170,7 +170,7 @@ reminderRouter.delete("/:id", (req, res) => {
     .findUnique({
       where: {
         id: reminderId,
-        userId: parseInt(userId),
+        userId,
       },
     })
     .then((reminder) => {
