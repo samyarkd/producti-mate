@@ -61,7 +61,7 @@ bot.use(async (ctx, next) => {
 
       if (goal) {
         // check if the user already joined the goal
-        const gameUser = await prisma.goalUser.findUnique({
+        const gameUser = await prisma.goalUser.findFirst({
           where: {
             goalId: parseInt(gi),
             userId: ctx.msg.from.id,

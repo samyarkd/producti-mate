@@ -28,7 +28,7 @@ model GoalUser {
   lastFinish DateTime?
   goal       Goal      @relation(fields: [goalId], references: [id])
 
-  userId Int  @unique
+  userId Int
   user   User @relation(fields: [userId], references: [id])
   goalId Int
 }
