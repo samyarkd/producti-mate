@@ -139,7 +139,9 @@ function GoalsTable(props: GoalTable) {
   // Render the item based on the editing mode
   return (
     <Table>
-      <TableCaption>You can also tap the goal to open it</TableCaption>
+      <TableCaption>
+        Goals are daily activities right now for example "read everyday"
+      </TableCaption>
       <TableHeader>
         <TableRow>
           <TableHead className="ps-3">Goal</TableHead>

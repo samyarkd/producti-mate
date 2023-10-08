@@ -1,20 +1,19 @@
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { cn } from "@/lib/utils";
-import { Route, useParams, useRouter } from "@tanstack/react-router";
-import { useMainButton } from "@twa.js/sdk-react";
-import { useEffect, useState } from "react";
+  TableRow
+} from "@/components/ui/table"
+import { cn } from "@/lib/utils"
+import { Route, useParams, useRouter } from "@tanstack/react-router"
+import { useMainButton } from "@twa.js/sdk-react"
+import { useEffect, useState } from "react"
 
-import featureLayoutRoute from "@/app/feature-layout";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button, ButtonWithConfirm } from "@/components/ui/button";
+import featureLayoutRoute from "@/app/feature-layout"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Button, ButtonWithConfirm } from "@/components/ui/button"
 import {
   Form,
   FormDescription,
@@ -22,29 +21,29 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+} from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
-import { Separator } from "@/components/ui/separator";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Textarea } from "@/components/ui/textarea";
+} from "@/components/ui/popover"
+import { Separator } from "@/components/ui/separator"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Textarea } from "@/components/ui/textarea"
 import {
   useDeleteGoal,
   useFinishDailyGoal,
   useGoal,
   useSendInviteLink,
   useUpdateGoal,
-} from "@/hooks/queries/goals";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Goal, GoalUser, User } from "@prisma/client";
-import "react-clock/dist/Clock.css";
-import { useForm } from "react-hook-form";
-import "react-time-picker/dist/TimePicker.css";
-import * as z from "zod";
+} from "@/hooks/queries/goals"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { Goal, GoalUser, User } from "@prisma/client"
+import "react-clock/dist/Clock.css"
+import { useForm } from "react-hook-form"
+import "react-time-picker/dist/TimePicker.css"
+import * as z from "zod"
 
 const ShareGoal = (props: { goal?: Goal }) => {
   const invitation = useSendInviteLink();
@@ -81,7 +80,6 @@ function LeaderboardTable(props: GoalTable) {
   // Render the item based on the editing mode
   return (
     <Table>
-      <TableCaption>You can also tap the goal to open it</TableCaption>
       <TableHeader>
         <TableRow>
           <TableHead className="ps-3">PFP</TableHead>
