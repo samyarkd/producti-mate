@@ -1,6 +1,7 @@
 # ProductiMate
-
+<div>
 <a style="margin-inline:auto" alt="ProductiMate logo" href="https://t.me/Productimatebot" target="_blank" rel="noreferrer"><img src="./apps/producti-mate/public/1.png" width="90"></a>
+</div>
 [ProductiMate](https://t.me/Productimatebot)
 
 
