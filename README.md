@@ -1,6 +1,8 @@
 # ProductiMate
 
-<a alt="ProductiMate logo" href="https://producti-mate.mazooon.com" target="_blank" rel="noreferrer"><img src="./apps/producti-mate/public/1.png" width="90"></a>
+<a style="margin-inline:auto" alt="ProductiMate logo" href="https://t.me/Productimatebot" target="_blank" rel="noreferrer"><img src="./apps/producti-mate/public/1.png" width="90"></a>
+[ProductiMate](https://t.me/Productimatebot)
+
 
 ProductiMate is a productivity app that helps you manage your time and tasks. It is built using **Nx**, **React**,  **ExpressJs**, **GrammyJs** and **Prisma**.
 
