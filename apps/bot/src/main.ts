@@ -71,26 +71,18 @@ bot.use(async (ctx, next) => {
         if (gameUser) {
           const goalBtn = new InlineKeyboard().webApp(
             "Goal Details",
-            `${process.env.API_URL}/goals`,
+            `${process.env.API_URL}`,
           );
           ctx.reply(
-            "You already joined this goal. Click on the 'Goal Details' button to see your goal.",
+            "You already joined this goal. Click on the 'Goal Details' button to see your goal after that open the Goals page.",
             {
               reply_markup: goalBtn,
             },
           );
         } else {
-          // create a new goalUser
-          const gameUser = await prisma.goalUser.create({
-            data: {
-              goalId: parseInt(gi),
-              userId: ctx.from.id.toString(),
-            },
-          });
-
           const goalBtn = new InlineKeyboard().webApp(
             "Goal Details",
-            `${process.env.API_URL}/goals`,
+            `${process.env.API_URL}`,
           );
 
           ctx.reply(
