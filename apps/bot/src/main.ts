@@ -26,7 +26,13 @@ bot.use(async (ctx, next) => {
           (await ctx.api.getFile(pfp)).file_path;
 
         if (!doesExist) {
-          ctx.reply("Welcome! Click on the buttons below to get started!");
+          const WebAppBtn = new InlineKeyboard().webApp(
+            "Open Mini-App",
+            "https://producti-mate.mazooon.com/",
+          );
+          ctx.reply("Welcome! Click on the buttons below to get started!", {
+            reply_markup: WebAppBtn,
+          });
         }
       } catch (error) {
         //
