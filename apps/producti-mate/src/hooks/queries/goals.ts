@@ -7,6 +7,8 @@ import {
   finishDailyGoal,
   getGoal,
   getGoals,
+  getPublicGoals,
+  joinGoal,
   sendInviteLink,
   updateGoal,
 } from "@/lib/services/goals";
@@ -14,6 +16,10 @@ import * as z from "zod";
 
 export const useGoals = () => {
   return useQuery({ queryKey: ["goals"], queryFn: getGoals });
+};
+
+export const usePublicGoals = () => {
+  return useQuery({ queryKey: ["p-goals"], queryFn: getPublicGoals });
 };
 
 export const useGoal = (id: number) => {
@@ -28,6 +34,17 @@ export const useAddGoal = () => {
 
   return useMutation({
     mutationFn: (data: z.infer<typeof AddGoalFormSchema>) => addGoal(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["goals"]);
+    },
+  });
+};
+
+export const useJoinGoal = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (data: { goalId: number }) => joinGoal(data),
     onSuccess: () => {
       queryClient.invalidateQueries(["goals"]);
     },

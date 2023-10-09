@@ -17,6 +17,10 @@ export const getGoals = async () => {
   >("/goals");
 };
 
+export const getPublicGoals = async () => {
+  return await axiosClient.get<Goal[]>("/goals/public");
+};
+
 export const getGoal = async (id: number) => {
   return await axiosClient.get<
     GoalUser & { goal: Goal & { users: (GoalUser & { user: User })[] } }
@@ -30,6 +34,10 @@ export const addGoal = async (data: {
   return await axiosClient.post<
     GoalUser & { goal: Goal & { users: (GoalUser & { user: User })[] } }
   >("/goals/add", data);
+};
+
+export const joinGoal = async (data: { goalId: number }) => {
+  return await axiosClient.post<GoalUser>("/goals/join", data);
 };
 
 export const updateGoal = async ({

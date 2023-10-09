@@ -41,6 +41,26 @@ goalsRouter.get("/", (req, res) => {
     });
 });
 
+goalsRouter.get("/public", (req, res) => {
+  prisma.goal
+    .findMany({
+      where: {
+        isPrivate: false,
+      },
+      orderBy: {
+        users: {
+          _count: "desc",
+        },
+      },
+    })
+    .then((goals) => {
+      res.json(goals);
+    })
+    .catch((err) => {
+      res.status(500).json({ error: err });
+    });
+});
+
 goalsRouter.get("/:id", (req, res) => {
   const authHeader = req.headers["authorization"];
   const userId = authHeader && authHeader.split(" ")[1];
@@ -113,6 +133,35 @@ goalsRouter.post("/add", (req, res) => {
         .catch((err) => {
           res.status(500).json({ error: err });
         });
+    })
+    .catch((err) => {
+      res.status(500).json({ error: err });
+    });
+});
+
+const joinGoalScheme = z.object({
+  goalId: z.number(),
+});
+
+goalsRouter.post("/join", (req, res) => {
+  const authHeader = req.headers["authorization"];
+  const userId = authHeader && authHeader.split(" ")[1];
+
+  const joinGame = joinGoalScheme.safeParse(req.body);
+  if (!joinGame.success) {
+    res.status(400).json({ error: "Bad data" });
+    return;
+  }
+
+  prisma.goalUser
+    .create({
+      data: {
+        goalId: joinGame.data.goalId,
+        userId,
+      },
+    })
+    .then((goalUser) => {
+      res.json(goalUser);
     })
     .catch((err) => {
       res.status(500).json({ error: err });

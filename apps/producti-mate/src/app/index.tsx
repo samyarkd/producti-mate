@@ -35,6 +35,13 @@ const Index = () => {
             title="Goals"
           />
         </Item>
+        <Item className="col-span-2">
+          <Feature
+            to="/join-goals"
+            imgSrc="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/main/People/Busts%20In%20Silhouette.webp"
+            title="Join Goals"
+          />
+        </Item>
       </div>
     </div>
   );
