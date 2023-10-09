@@ -39,6 +39,7 @@ export const AddGoalFormSchema = z.object({
     required_error: "A title for the goal is required.",
   }),
   description: z.string().optional(),
+  isPrivate: z.boolean().optional(),
 });
 
 export interface AddGoalProps {

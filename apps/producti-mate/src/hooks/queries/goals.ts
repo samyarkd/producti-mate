@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
+import { AddGoalFormSchema } from "@/components/goals/goals-types";
 import {
   addGoal,
   deleteGoal,
@@ -9,6 +10,7 @@ import {
   sendInviteLink,
   updateGoal,
 } from "@/lib/services/goals";
+import * as z from "zod";
 
 export const useGoals = () => {
   return useQuery({ queryKey: ["goals"], queryFn: getGoals });
@@ -25,8 +27,7 @@ export const useAddGoal = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (data: { title: string; description?: string }) =>
-      addGoal(data),
+    mutationFn: (data: z.infer<typeof AddGoalFormSchema>) => addGoal(data),
     onSuccess: () => {
       queryClient.invalidateQueries(["goals"]);
     },

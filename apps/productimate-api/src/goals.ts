@@ -74,6 +74,7 @@ goalsRouter.get("/:id", (req, res) => {
 const addGoalScheme = z.object({
   title: z.string(),
   description: z.string().optional(),
+  isPrivate: z.boolean().optional(),
 });
 
 goalsRouter.post("/add", (req, res) => {
@@ -89,8 +90,9 @@ goalsRouter.post("/add", (req, res) => {
   prisma.goal
     .create({
       data: {
-        title: req.body.title,
-        description: req.body.description,
+        title: goal.data.title,
+        description: goal.data.description,
+        isPrivate: goal.data.isPrivate,
         userId,
       },
     })
