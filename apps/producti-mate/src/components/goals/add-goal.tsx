@@ -100,7 +100,6 @@ const AddGoal = (props: AddGoalProps) => {
                 <FormItem className="flex flex-col">
                   <FormLabel>Is Private</FormLabel>
                   <Switch
-                    required
                     checked={field.value}
                     onCheckedChange={field.onChange}
                   />
