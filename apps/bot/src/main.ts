@@ -3,13 +3,13 @@ import "dotenv/config";
 import { prisma, telBot } from "@producti-mate/shared";
 import { InlineKeyboard } from "grammy";
 
-// Create an instance of the `Bot` class and pass your bot token to it.
 const bot = telBot; // <-- put your bot token between the ""
 
+/**
+ * This is a middelware for when user joins a goal via the bot
+ */
 bot.use(async (ctx, next) => {
   try {
-    // start with invite scheme => /start gi=123
-    // we want the gi
     if (ctx.msg.text.startsWith("/start")) {
       let pfpUrl: null | string = null;
       try {
@@ -50,8 +50,6 @@ bot.use(async (ctx, next) => {
       }
 
       const gi = ctx.msg.text.split(" ")[1].split("=")[1];
-      // gi is the goal id
-      // check if the goal exists
 
       const goal = await prisma.goal.findUnique({
         where: {
@@ -71,7 +69,7 @@ bot.use(async (ctx, next) => {
         if (gameUser) {
           const goalBtn = new InlineKeyboard().webApp(
             "Goal Details",
-            `${process.env.API_URL}`,
+            `${process.env.API_URL}/goals/${gameUser.id}`,
           );
           ctx.reply(
             "You already joined this goal. Click on the 'Goal Details' button to see your goal after that open the Goals page.",
@@ -82,7 +80,7 @@ bot.use(async (ctx, next) => {
         } else {
           const goalBtn = new InlineKeyboard().webApp(
             "Goal Details",
-            `${process.env.API_URL}`,
+            `${process.env.API_URL}/goals/${gameUser.id}`,
           );
 
           ctx.reply(
