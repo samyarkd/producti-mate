@@ -134,7 +134,7 @@ const AddReminder = (props: AddReminderProps) => {
                       field.onChange(date);
                     }}
                     // i want the time to be invalid if it's before now
-                    min={format(new Date(), "HH:mm")}
+                    // min={format(new Date(), "HH:mm")}
                   />
                   <FormDescription>
                     You will get the reminder message in this date
