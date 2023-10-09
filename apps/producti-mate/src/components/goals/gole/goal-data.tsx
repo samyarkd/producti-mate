@@ -4,6 +4,13 @@ import { EditFormScheme, EditGoalProps, GoalT } from "../goals-types";
 
 import { Button, ButtonWithConfirm } from "@/components/ui/button";
 import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import {
   Form,
   FormDescription,
   FormField,
@@ -12,11 +19,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import { useDeleteGoal, useUpdateGoal } from "@/hooks/queries/goals";
@@ -60,16 +62,19 @@ const EditGoal = (props: EditGoalProps) => {
   }, [props.goalUser?.goal.title, props.goalUser?.goal.description]);
 
   return (
-    <Popover modal open={open} onOpenChange={(open) => setOpen(open)}>
-      <PopoverTrigger
+    <Dialog modal open={open} onOpenChange={(open) => setOpen(open)}>
+      <DialogTrigger
         asChild
         onClick={() => {
           setOpen(true);
         }}
       >
         <Button className="w-full">Edit</Button>
-      </PopoverTrigger>
-      <PopoverContent>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Edit Goal</DialogTitle>
+        </DialogHeader>
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
@@ -111,8 +116,8 @@ const EditGoal = (props: EditGoalProps) => {
             </Button>
           </form>
         </Form>
-      </PopoverContent>
-    </Popover>
+      </DialogContent>
+    </Dialog>
   );
 };
 

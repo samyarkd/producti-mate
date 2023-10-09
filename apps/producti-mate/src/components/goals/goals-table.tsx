@@ -25,12 +25,14 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 import { Textarea } from "@/components/ui/textarea";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "../ui/dialog";
 import {
   AddGoalFormSchema,
   AddGoalProps,
@@ -56,15 +58,18 @@ const AddGoal = (props: AddGoalProps) => {
   }
 
   return (
-    <Popover modal open={open} onOpenChange={(open) => setOpen(open)}>
-      <PopoverTrigger
+    <Dialog open={open} modal onOpenChange={(open) => setOpen(open)}>
+      <DialogTrigger
         onClick={() => {
           setOpen(true);
         }}
       >
         Add a New Goal
-      </PopoverTrigger>
-      <PopoverContent>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Add a New Goal</DialogTitle>
+        </DialogHeader>
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
@@ -107,8 +112,8 @@ const AddGoal = (props: AddGoalProps) => {
             </Button>
           </form>
         </Form>
-      </PopoverContent>
-    </Popover>
+      </DialogContent>
+    </Dialog>
   );
 };
 

@@ -27,6 +27,13 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import "react-clock/dist/Clock.css";
 import "react-time-picker/dist/TimePicker.css";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "../ui/dialog";
 import { AddReminderFormSchema, AddReminderProps } from "./reminders-types";
 
 const AddReminder = (props: AddReminderProps) => {
@@ -47,15 +54,18 @@ const AddReminder = (props: AddReminderProps) => {
   }
 
   return (
-    <Popover modal open={open} onOpenChange={(open) => setOpen(open)}>
-      <PopoverTrigger
+    <Dialog modal open={open} onOpenChange={(open) => setOpen(open)}>
+      <DialogTrigger
         onClick={() => {
           setOpen(true);
         }}
       >
         Add a New Reminder
-      </PopoverTrigger>
-      <PopoverContent>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Add a New Reminder</DialogTitle>
+        </DialogHeader>
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
@@ -154,8 +164,8 @@ const AddReminder = (props: AddReminderProps) => {
             </Button>
           </form>
         </Form>
-      </PopoverContent>
-    </Popover>
+      </DialogContent>
+    </Dialog>
   );
 };
 
