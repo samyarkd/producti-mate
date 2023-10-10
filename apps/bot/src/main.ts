@@ -34,12 +34,15 @@ bot.use(async (ctx, next) => {
           "https://producti-mate.mazooon.com/",
         );
         if (!doesExist) {
-          ctx.reply("Welcome! Click on the buttons below to get started!", {
-            reply_markup: WebAppBtn,
-          });
+          await ctx.reply(
+            "Welcome! Click on the buttons below to get started!",
+            {
+              reply_markup: WebAppBtn,
+            },
+          );
         } else {
           if (ctx.msg.text === "/start") {
-            ctx.reply(
+            await ctx.reply(
               "Welcome back! Click on the button below to get started!",
               {
                 reply_markup: WebAppBtn,
@@ -90,7 +93,7 @@ bot.use(async (ctx, next) => {
             "Goal Details",
             `${process.env.API_URL}/goals/${gameUser.id}`,
           );
-          ctx.reply(
+          await ctx.reply(
             "You already joined this goal. Click on the 'Goal Details' button to see your goal details.",
             {
               reply_markup: goalBtn,
@@ -102,7 +105,7 @@ bot.use(async (ctx, next) => {
             `${process.env.API_URL}/goals/${gameUser.id}`,
           );
 
-          ctx.reply(
+          await ctx.reply(
             "You joined the goal successfully. Click on the 'Goal Details' button to see your goal details.",
             {
               reply_markup: goalBtn,

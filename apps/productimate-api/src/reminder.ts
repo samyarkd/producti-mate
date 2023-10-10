@@ -78,9 +78,16 @@ reminderRouter.post("/add", (req, res) => {
 
   const sm = schedule.scheduleJob(
     new Date(reminder.data.remindAt),
-    function () {
-      telBot.api.sendMessage(userId, "Reminder: \n\n" + reminder.data.title);
-      console.log("The world is going to end today.");
+    async function () {
+      try {
+        await telBot.api.sendMessage(
+          userId,
+          "Reminder: \n\n" + reminder.data.title,
+        );
+        console.log("The world is going to end today.");
+      } catch (error) {
+        console.log("89 re" + error);
+      }
     },
   );
 
