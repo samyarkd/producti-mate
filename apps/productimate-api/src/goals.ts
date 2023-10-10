@@ -303,11 +303,15 @@ Click on the bellow button to accept the invitation.
             });
         })
         .catch((err) => {
-          res.status(500).json({ error: err });
+          console.error(JSON.stringify(err));
+
+          res.status(500).json({ error: JSON.stringify(err) });
         });
     })
     .catch((err) => {
-      res.status(500).json({ error: err });
+      console.error(JSON.stringify(err));
+
+      res.status(500).json({ error: JSON.stringify(err) });
     });
 });
 
