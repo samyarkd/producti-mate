@@ -76,7 +76,7 @@ function Story(params: {
   }, []);
 
   return (
-    <div className="w-full bg-[#004AAD] h-full p-4 flex flex-col items-center">
+    <div className="text-white w-full bg-[#004AAD] h-full p-4 flex flex-col items-center">
       <h1 className="text-3xl mt-6 font-semibold ">{params.title}</h1>
       <p className="mt-4 text-xl">{params.descripion}</p>
 
