@@ -19,7 +19,7 @@ bot.use(async (ctx, next) => {
       try {
         const doesExist = await prisma.user.findUnique({
           where: {
-            id: ctx.message?.from?.id.toString(),
+            id: ctx.msg?.from?.id.toString(),
           },
         });
 
@@ -51,6 +51,8 @@ bot.use(async (ctx, next) => {
           }
         }
       } catch (error) {
+        console.log(error);
+
         reportError("51:" + JSON.stringify(error));
       }
 
@@ -100,6 +102,13 @@ bot.use(async (ctx, next) => {
             },
           );
         } else {
+          const gameUser = await prisma.goalUser.create({
+            data: {
+              goalId: parseInt(gi),
+              userId: ctx.from.id.toString(),
+            },
+          });
+
           const goalBtn = new InlineKeyboard().webApp(
             "Goal Details",
             `${process.env.API_URL}/goals/${gameUser.id}`,
@@ -115,13 +124,16 @@ bot.use(async (ctx, next) => {
       }
     }
   } catch (error) {
+    console.log(error);
+
     reportError("115: " + JSON.stringify(error));
   }
   return next();
 });
 
-bot.catch((err) => {
-  reportError(err);
+bot.catch((error) => {
+  console.log(error);
+  reportError(error);
 });
 
 function reportError(error: any) {

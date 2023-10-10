@@ -77,11 +77,9 @@ This command will build all three projects and put the build files in the `dist`
 `npm install pm2 -g` and `npm install serve -g`
 
 ### 4. Env variables
-We have to set environment variables for all three of them. so copy the .env file into their location.
+We have to set environment variables for the bot (it wont find it sometimes in different environment if we don't). so copy the .env file into their location.
 
-- `cp .env dist/apps/productimate-api/.env`
 - `cp .env dist/apps/bot/.env`
-- `cp .env dist/apps/producti-mate/.env`
 
 ### 5. Start the app
 Open 3 terminals and run the following commands in each one of them.

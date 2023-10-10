@@ -26,7 +26,6 @@ function GoalsTable(props: GoalTable) {
         <TableRow>
           <TableHead className="ps-3">Goal</TableHead>
           <TableHead>Users</TableHead>
-          <TableHead>Exp</TableHead>
           <TableHead>Open</TableHead>
         </TableRow>
       </TableHeader>
@@ -46,7 +45,6 @@ function GoalsTable(props: GoalTable) {
                 ))}
               </div>
             </TableCell>
-            <TableCell>{item.exp}</TableCell>
             <TableCell>
               <Link
                 to={"/goals/$goalId"}
