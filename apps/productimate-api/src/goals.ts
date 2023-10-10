@@ -151,7 +151,7 @@ const joinGoalScheme = z.object({
   goalId: z.number(),
 });
 
-goalsRouter.post("/join", (req, res) => {
+goalsRouter.post("/join", async (req, res) => {
   const authHeader = req.headers["authorization"];
   const userId = authHeader && authHeader.split(" ")[1];
 
@@ -161,19 +161,28 @@ goalsRouter.post("/join", (req, res) => {
     return;
   }
 
-  prisma.goalUser
-    .create({
+  try {
+    // check if the user already joined the goal
+    const goalUser = await prisma.goalUser.findFirst({
+      where: {
+        goalId: joinGame.data.goalId,
+      },
+    });
+
+    if (goalUser) {
+      return res.json(goalUser);
+    }
+
+    const joinGoal = await prisma.goalUser.create({
       data: {
         goalId: joinGame.data.goalId,
         userId,
       },
-    })
-    .then((goalUser) => {
-      res.json(goalUser);
-    })
-    .catch((err) => {
-      res.status(500).json({ error: err });
     });
+    return res.json(joinGoal);
+  } catch (error) {
+    return res.status(500).json({ error: error });
+  }
 });
 
 const updateGoalScheme = z.object({
