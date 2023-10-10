@@ -261,9 +261,9 @@ goalsRouter.get("/add/user/:id", (req, res) => {
   const userId = authHeader && authHeader.split(" ")[1];
 
   prisma.goalUser
-    .findUnique({
+    .findFirst({
       where: {
-        id: parseInt(req.params.id),
+        goalId: parseInt(req.params.id),
         userId,
       },
       include: {
@@ -272,6 +272,12 @@ goalsRouter.get("/add/user/:id", (req, res) => {
       },
     })
     .then((gu) => {
+      if (!gu) {
+        return res.status(404).json({
+          message: "The goal not found",
+        });
+      }
+
       const inviteBtn = new InlineKeyboard().url(
         "Accept invitation ✅",
         `https://t.me/ProductiMatebot?start=gi=${gu.goalId}`,
@@ -303,13 +309,13 @@ Click on the bellow button to accept the invitation.
             });
         })
         .catch((err) => {
-          console.error(JSON.stringify(err));
+          console.error(err);
 
           res.status(500).json({ error: JSON.stringify(err) });
         });
     })
     .catch((err) => {
-      console.error(JSON.stringify(err));
+      console.error(err);
 
       res.status(500).json({ error: JSON.stringify(err) });
     });
