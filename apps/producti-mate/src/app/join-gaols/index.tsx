@@ -17,7 +17,7 @@ function GoalItem({ goal }: { goal: Goal }) {
 
       router.navigate({
         to: "/goals/$goalId",
-        params: { goalId: goal.id.toString() },
+        params: { goalId: joinGoal.data?.data.id.toString() },
       });
     }
   }, [joinGoal.isSuccess]);

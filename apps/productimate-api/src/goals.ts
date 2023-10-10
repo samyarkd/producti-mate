@@ -166,6 +166,7 @@ goalsRouter.post("/join", async (req, res) => {
     const goalUser = await prisma.goalUser.findFirst({
       where: {
         goalId: joinGame.data.goalId,
+        userId,
       },
     });
 
