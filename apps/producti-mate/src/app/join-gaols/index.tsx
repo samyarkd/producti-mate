@@ -46,7 +46,7 @@ const JoinGoals = () => {
   const goals = usePublicGoals();
 
   return (
-    <div className="p-4">
+    <div className="p-4 space-y-4">
       {goals.isLoading && (
         <div className="flex items-center justify-center">
           <p>Loading...</p>
