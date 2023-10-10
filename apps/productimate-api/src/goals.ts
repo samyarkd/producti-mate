@@ -302,7 +302,7 @@ Click on the bellow button to accept the invitation.
           telBot.api
             .sendMessage(
               gu.userId,
-              `Share the above link with your friends to invite them to your goal. 👆👆`,
+              `Forwared the above message with your friends to invite them to your goal. 👆👆`,
             )
             .finally(() => {
               res.json({ message: "invitation sent" });

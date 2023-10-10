@@ -91,7 +91,7 @@ bot.use(async (ctx, next) => {
             `${process.env.API_URL}/goals/${gameUser.id}`,
           );
           ctx.reply(
-            "You already joined this goal. Click on the 'Goal Details' button to see your goal after that open the Goals page.",
+            "You already joined this goal. Click on the 'Goal Details' button to see your goal details.",
             {
               reply_markup: goalBtn,
             },
@@ -103,7 +103,7 @@ bot.use(async (ctx, next) => {
           );
 
           ctx.reply(
-            "You joined the goal successfully. Click on the 'Goal Details' button to see your goal.",
+            "You joined the goal successfully. Click on the 'Goal Details' button to see your goal details.",
             {
               reply_markup: goalBtn,
             },
