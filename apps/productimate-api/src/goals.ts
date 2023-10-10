@@ -42,10 +42,18 @@ goalsRouter.get("/", (req, res) => {
 });
 
 goalsRouter.get("/public", (req, res) => {
+  const authHeader = req.headers["authorization"];
+  const userId = authHeader && authHeader.split(" ")[1];
+
   prisma.goal
     .findMany({
       where: {
         isPrivate: false,
+        users: {
+          none: {
+            userId,
+          },
+        },
       },
       orderBy: {
         users: {

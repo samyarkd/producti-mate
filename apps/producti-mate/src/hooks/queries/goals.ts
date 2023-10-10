@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import { AddGoalFormSchema } from "@/components/goals/goals-types";
+import { toast } from "@/components/ui/use-toast";
 import {
   addGoal,
   deleteGoal,
@@ -46,7 +47,10 @@ export const useJoinGoal = () => {
   return useMutation({
     mutationFn: (data: { goalId: number }) => joinGoal(data),
     onSuccess: () => {
-      queryClient.invalidateQueries(["goals"]);
+      queryClient.invalidateQueries(["p-goals"]);
+      toast({
+        title: "You successfully joined a goal",
+      });
     },
   });
 };
