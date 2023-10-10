@@ -29,7 +29,7 @@ export function App() {
             backgroundColor: themeParams?.backgroundColor || "white",
             color: themeParams?.textColor || "black",
           }}
-          className={"h-screen"}
+          className={"min-h-screen"}
         >
           <Outlet />
         </main>

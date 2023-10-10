@@ -326,20 +326,39 @@ goalsRouter.put("/finish/:id", (req, res) => {
   const userId = authHeader && authHeader.split(" ")[1];
 
   prisma.goalUser
-    .update({
+    .findUnique({
       where: {
         id: parseInt(req.params.id),
-        userId,
-      },
-      data: {
-        exp: {
-          increment: 10,
-        },
-        lastFinish: new Date(new Date().toDateString()),
       },
     })
     .then((goalUser) => {
-      res.json(goalUser);
+      if (
+        goalUser.lastFinish &&
+        new Date(goalUser.lastFinish).toDateString() ===
+          new Date().toDateString()
+      ) {
+        res.json(goalUser);
+      } else {
+        prisma.goalUser
+          .update({
+            where: {
+              id: parseInt(req.params.id),
+              userId,
+            },
+            data: {
+              exp: {
+                increment: 10,
+              },
+              lastFinish: new Date(new Date().toDateString()),
+            },
+          })
+          .then((goalUser) => {
+            res.json(goalUser);
+          })
+          .catch((err) => {
+            res.status(500).json({ error: err });
+          });
+      }
     })
     .catch((err) => {
       res.status(500).json({ error: err });
