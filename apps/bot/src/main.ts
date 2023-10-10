@@ -3,12 +3,16 @@ import "dotenv/config";
 import { prisma, telBot } from "@producti-mate/shared";
 import { InlineKeyboard } from "grammy";
 
-const bot = telBot; // <-- put your bot token between the ""
+const bot = telBot;
 
 /**
  * This is a middelware for when user joins a goal via the bot
  */
 bot.use(async (ctx, next) => {
+  if (!ctx?.msg?.text) {
+    return next();
+  }
+
   try {
     if (ctx.msg.text.startsWith("/start")) {
       let pfpUrl: null | string = null;
@@ -25,17 +29,26 @@ bot.use(async (ctx, next) => {
           `https://api.telegram.org/file/bot${process.env.BOT_TOKEN}/` +
           (await ctx.api.getFile(pfp)).file_path;
 
+        const WebAppBtn = new InlineKeyboard().webApp(
+          "Open Mini-App",
+          "https://producti-mate.mazooon.com/",
+        );
         if (!doesExist) {
-          const WebAppBtn = new InlineKeyboard().webApp(
-            "Open Mini-App",
-            "https://producti-mate.mazooon.com/",
-          );
           ctx.reply("Welcome! Click on the buttons below to get started!", {
             reply_markup: WebAppBtn,
           });
+        } else {
+          if (ctx.msg.text === "/start") {
+            ctx.reply(
+              "Welcome back! Click on the button below to get started!",
+              {
+                reply_markup: WebAppBtn,
+              },
+            );
+          }
         }
       } catch (error) {
-        //
+        reportError("51:" + JSON.stringify(error));
       }
 
       await prisma.user.upsert({
@@ -99,7 +112,7 @@ bot.use(async (ctx, next) => {
       }
     }
   } catch (error) {
-    reportError(error);
+    reportError("115: " + JSON.stringify(error));
   }
   return next();
 });
