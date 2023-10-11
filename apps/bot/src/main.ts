@@ -2,6 +2,7 @@ import "dotenv/config";
 
 import { prisma, telBot } from "@producti-mate/shared";
 import { InlineKeyboard } from "grammy";
+import { serializeError } from "serialize-error";
 
 const bot = telBot;
 
@@ -51,9 +52,9 @@ bot.use(async (ctx, next) => {
           }
         }
       } catch (error) {
-        console.log(error);
+        const errorStr = serializeError(error);
 
-        reportError("51:" + JSON.stringify(error));
+        reportError("51:" + JSON.stringify(errorStr));
       }
 
       await prisma.user.upsert({
@@ -125,8 +126,9 @@ bot.use(async (ctx, next) => {
     }
   } catch (error) {
     console.log(error);
+    const errorStr = serializeError(error);
 
-    reportError("115: " + JSON.stringify(error));
+    reportError("115: " + JSON.stringify(errorStr));
   }
   return next();
 });
