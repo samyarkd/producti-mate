@@ -12,6 +12,7 @@
 import { prisma, telBot } from "@producti-mate/shared";
 import { Router } from "express";
 import { InlineKeyboard } from "grammy";
+import { scheduleJob } from "node-schedule";
 import * as z from "zod";
 
 export const goalsRouter = Router();
@@ -362,5 +363,54 @@ goalsRouter.put("/finish/:id", (req, res) => {
     })
     .catch((err) => {
       res.status(500).json({ error: err });
+    });
+});
+
+/**
+ * Schedule a job to run at 3 pm every day
+ * We remind the users to check their goals and complete them
+ */
+scheduleJob("0 0 15 * * *", function (fireDate) {
+  // Go throw all users and send a message in telegram and remind them to check their goals
+
+  prisma.user
+    .findMany({
+      where: {
+        goalUsers: {
+          some: {
+            lastFinish: {
+              not: new Date(new Date().toDateString()),
+            },
+          },
+        },
+      },
+      include: {
+        goalUsers: {
+          include: {
+            goal: true,
+          },
+        },
+      },
+    })
+    .then((users) => {
+      users.forEach(async (user) => {
+        await telBot.api.sendMessage(
+          user.id,
+          `
+What's up mate? 🤨 Im here to remind you about something important
+
+In order to progress you should complete small steps each day 😀 so here are your daily goals and make sure to finish them 💪:
+
+${user.goalUsers.map((goalUser) => {
+  return `• ${goalUser.goal.title} (${goalUser.exp} exp) \n\n`;
+})}
+
+Let's crush them 🫵
+`,
+        );
+      });
+    })
+    .catch((err) => {
+      console.error(err);
     });
 });
