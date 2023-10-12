@@ -62,6 +62,7 @@
     "zod": "^3.22.2"
   },
   "devDependencies": {
+    "@babel/eslint-parser": "^7.22.15",
     "@nx/cypress": "16.9.1",
     "@nx/esbuild": "^16.10.0",
     "@nx/eslint-plugin": "16.9.1",

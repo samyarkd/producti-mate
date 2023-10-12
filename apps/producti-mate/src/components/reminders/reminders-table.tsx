@@ -22,9 +22,9 @@ import { DotsHorizontalIcon } from "@radix-ui/react-icons";
 import { useMainButton, useThemeParams } from "@twa.js/sdk-react";
 import { useEffect, useState } from "react";
 
+import type { RemainingTime, ReminderTable } from "@producti-mate/shared";
 import "react-clock/dist/Clock.css";
 import "react-time-picker/dist/TimePicker.css";
-import type { RemainingTime, ReminderTable } from "./reminders-types";
 
 function RemindersTable(props: ReminderTable) {
   const [editing, setEditing] = useState<number | null>(null);

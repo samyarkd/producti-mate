@@ -6,8 +6,8 @@ import featureLayoutRoute from "../feature-layout";
 import * as z from "zod";
 
 import GoalsList from "@/components/goals/goals-table";
-import { AddGoalFormSchema, GoalItem } from "@/components/goals/goals-types";
 import { useAddGoal, useGoals } from "@/hooks/queries/goals";
+import { AddGoalScheme, GoalItem } from "@producti-mate/shared";
 import goalRoute from "./goal";
 
 function Goals() {
@@ -23,7 +23,7 @@ function Goals() {
   }
 
   // A function to handle the submission of a new item
-  async function handleAdd(data: z.infer<typeof AddGoalFormSchema>) {
+  async function handleAdd(data: z.infer<typeof AddGoalScheme>) {
     const res = await addGoal.mutateAsync(data);
 
     setItems([

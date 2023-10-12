@@ -9,10 +9,14 @@
  * The routes are protected by a middleware that checks if the user is logged in using cookies.
  */
 
-import { prisma, telBot } from "@producti-mate/shared";
+import {
+  AddReminderScheme,
+  ReminderSchemeUpdate,
+  prisma,
+  telBot,
+} from "@producti-mate/shared";
 import { Router } from "express";
 import schedule from "node-schedule";
-import * as z from "zod";
 
 export const reminderRouter = Router();
 
@@ -57,17 +61,11 @@ reminderRouter.get("/:id", (req, res) => {
     });
 });
 
-const reminderSchema = z.object({
-  remindAt: z.string(),
-  title: z.string().optional(),
-  body: z.string().optional(),
-});
-
 reminderRouter.post("/add", (req, res) => {
   const authHeader = req.headers["authorization"];
   const userId = authHeader && authHeader.split(" ")[1];
 
-  const reminder = reminderSchema.safeParse(req.body);
+  const reminder = AddReminderScheme.safeParse(req.body);
 
   if (!reminder.success) {
     res
@@ -108,17 +106,11 @@ reminderRouter.post("/add", (req, res) => {
     });
 });
 
-const reminderSchemaUpdate = z.object({
-  remindAt: z.string().optional(),
-  title: z.string().optional(),
-  body: z.string().optional(),
-});
-
 reminderRouter.put("/:id", (req, res) => {
   const authHeader = req.headers["authorization"];
   const userId = authHeader && authHeader.split(" ")[1];
 
-  const reminder = reminderSchemaUpdate.safeParse(req.body);
+  const reminder = ReminderSchemeUpdate.safeParse(req.body);
 
   if (!reminder.success) {
     res

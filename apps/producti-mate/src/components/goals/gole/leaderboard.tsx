@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/popover";
 import { useSendInviteLink } from "@/hooks/queries/goals";
 import { Goal } from "@prisma/client";
-import { GoalUserTable, GoalUsersListT } from "../goals-types";
+import { GoalUserTable, GoalUsersListT } from "@producti-mate/shared";
 
 const ShareGoal = (props: { goal?: Goal }) => {
   const invitation = useSendInviteLink();

@@ -25,6 +25,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Textarea } from "@/components/ui/textarea";
+import { AddReminderFormSchema, AddReminderProps } from "@producti-mate/shared";
 import "react-clock/dist/Clock.css";
 import "react-time-picker/dist/TimePicker.css";
 import {
@@ -34,7 +35,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "../ui/dialog";
-import { AddReminderFormSchema, AddReminderProps } from "./reminders-types";
 
 const AddReminder = (props: AddReminderProps) => {
   const [dateOpen, setDateOpen] = useState(false);

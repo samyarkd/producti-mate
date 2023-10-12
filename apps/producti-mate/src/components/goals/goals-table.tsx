@@ -12,8 +12,8 @@ import { cn } from "@/lib/utils";
 import { Link } from "@tanstack/react-router";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { GoalTable, GoalsListT } from "@producti-mate/shared";
 import AddGoal from "./add-goal";
-import { GoalTable, GoalsListT } from "./goals-types";
 
 function GoalsTable(props: GoalTable) {
   // Render the item based on the editing mode

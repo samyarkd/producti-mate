@@ -7,15 +7,12 @@ import * as z from "zod";
 
 import Reminders from "@/components/reminders";
 import {
-  AddReminderFormSchema,
-  ReminderItem,
-} from "@/components/reminders/reminders-types";
-import {
   useAddReminder,
   useDeleteReminder,
   useReminders,
   useUpdateReminder,
 } from "@/hooks/queries/reminders";
+import { AddReminderFormSchema, ReminderItem } from "@producti-mate/shared";
 
 // The main component of the reminder page
 function Reminder() {

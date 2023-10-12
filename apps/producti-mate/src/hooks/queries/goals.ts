@@ -1,6 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-import { AddGoalFormSchema } from "@/components/goals/goals-types";
 import { toast } from "@/components/ui/use-toast";
 import {
   addGoal,
@@ -13,6 +12,7 @@ import {
   sendInviteLink,
   updateGoal,
 } from "@/lib/services/goals";
+import { AddGoalScheme } from "@producti-mate/shared";
 import * as z from "zod";
 
 export const useGoals = () => {
@@ -34,7 +34,7 @@ export const useAddGoal = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (data: z.infer<typeof AddGoalFormSchema>) => addGoal(data),
+    mutationFn: (data: z.infer<typeof AddGoalScheme>) => addGoal(data),
     onSuccess: () => {
       queryClient.invalidateQueries(["goals"]);
     },

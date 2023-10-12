@@ -6,6 +6,9 @@
     "paths": {
       "@/*": [
         "./*"
+      ],
+      "@producti-mate/shared": [
+        "../../../libs/shared/src/index"
       ]
     },
     "esModuleInterop": false,

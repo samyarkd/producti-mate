@@ -1,6 +1,6 @@
+import { EditGoalProps, GoalT, UpdateGoalScheme } from "@producti-mate/shared";
 import { useRouter } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { EditFormScheme, EditGoalProps, GoalT } from "../goals-types";
 
 import { Button, ButtonWithConfirm } from "@/components/ui/button";
 import {
@@ -32,15 +32,15 @@ const EditGoal = (props: EditGoalProps) => {
   const [open, setOpen] = useState(false);
   const updateGoal = useUpdateGoal();
 
-  const form = useForm<z.infer<typeof EditFormScheme>>({
-    resolver: zodResolver(EditFormScheme),
+  const form = useForm<z.infer<typeof UpdateGoalScheme>>({
+    resolver: zodResolver(UpdateGoalScheme),
     defaultValues: {
       title: "",
       description: "",
     },
   });
 
-  function onSubmit(data: z.infer<typeof EditFormScheme>) {
+  function onSubmit(data: z.infer<typeof UpdateGoalScheme>) {
     if (props.goalUser?.goal.id) {
       updateGoal.mutate({
         data,

@@ -14,6 +14,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
+import { AddGoalProps, AddGoalScheme } from "@producti-mate/shared";
 import {
   Dialog,
   DialogContent,
@@ -22,13 +23,12 @@ import {
   DialogTrigger,
 } from "../ui/dialog";
 import { Switch } from "../ui/switch";
-import { AddGoalFormSchema, AddGoalProps } from "./goals-types";
 
 const AddGoal = (props: AddGoalProps) => {
   const [open, setOpen] = useState(false);
 
-  const form = useForm<z.infer<typeof AddGoalFormSchema>>({
-    resolver: zodResolver(AddGoalFormSchema),
+  const form = useForm<z.infer<typeof AddGoalScheme>>({
+    resolver: zodResolver(AddGoalScheme),
     defaultValues: {
       title: "",
       description: "",
@@ -36,7 +36,7 @@ const AddGoal = (props: AddGoalProps) => {
     },
   });
 
-  function onSubmit(data: z.infer<typeof AddGoalFormSchema>) {
+  function onSubmit(data: z.infer<typeof AddGoalScheme>) {
     props.onAdd(data);
     form.reset();
     setOpen(false);

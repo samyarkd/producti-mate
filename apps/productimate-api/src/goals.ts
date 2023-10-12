@@ -9,11 +9,16 @@
  * 7. PUT /goals/finish/:id
  */
 
-import { prisma, telBot } from "@producti-mate/shared";
+import {
+  AddGoalScheme,
+  JoinGoalScheme,
+  UpdateGoalScheme,
+  prisma,
+  telBot,
+} from "@producti-mate/shared";
 import { Router } from "express";
 import { InlineKeyboard } from "grammy";
 import { scheduleJob } from "node-schedule";
-import * as z from "zod";
 
 export const goalsRouter = Router();
 
@@ -100,17 +105,11 @@ goalsRouter.get("/:id", (req, res) => {
     });
 });
 
-const addGoalScheme = z.object({
-  title: z.string(),
-  description: z.string().optional(),
-  isPrivate: z.boolean().optional(),
-});
-
 goalsRouter.post("/add", (req, res) => {
   const authHeader = req.headers["authorization"];
   const userId = authHeader && authHeader.split(" ")[1];
 
-  const goal = addGoalScheme.safeParse(req.body);
+  const goal = AddGoalScheme.safeParse(req.body);
   if (!goal.success) {
     res.status(400).json({ error: "Bad data" });
     return;
@@ -148,15 +147,11 @@ goalsRouter.post("/add", (req, res) => {
     });
 });
 
-const joinGoalScheme = z.object({
-  goalId: z.number(),
-});
-
 goalsRouter.post("/join", async (req, res) => {
   const authHeader = req.headers["authorization"];
   const userId = authHeader && authHeader.split(" ")[1];
 
-  const joinGame = joinGoalScheme.safeParse(req.body);
+  const joinGame = JoinGoalScheme.safeParse(req.body);
   if (!joinGame.success) {
     res.status(400).json({ error: "Bad data" });
     return;
@@ -187,15 +182,10 @@ goalsRouter.post("/join", async (req, res) => {
   }
 });
 
-const updateGoalScheme = z.object({
-  title: z.string().optional(),
-  description: z.string().optional(),
-});
-
 goalsRouter.put("/:id", (req, res) => {
   const authHeader = req.headers["authorization"];
   const userId = authHeader && authHeader.split(" ")[1];
-  const goal = updateGoalScheme.safeParse(req.body);
+  const goal = UpdateGoalScheme.safeParse(req.body);
   if (!goal.success) {
     res.status(400).json({ error: "Bad data" });
     return;

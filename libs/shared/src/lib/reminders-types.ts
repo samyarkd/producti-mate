@@ -9,8 +9,24 @@ export const AddReminderFormSchema = z.object({
   }),
 });
 
+export type AddReminderFormType = z.infer<typeof AddReminderFormSchema>;
+
+export const ReminderSchemeUpdate = z.object({
+  remindAt: z.string().optional(),
+  title: z.string().optional(),
+  body: z.string().optional(),
+});
+
+export const AddReminderScheme = z.object({
+  remindAt: z.string(),
+  title: z.string().optional(),
+  body: z.string().optional(),
+});
+
+export type AddReminderType = z.infer<typeof AddReminderScheme>;
+
 export interface AddReminderProps {
-  onAdd: (data: z.infer<typeof AddReminderFormSchema>) => void;
+  onAdd: (data: AddReminderFormType) => void;
 }
 
 export interface RemainingTime {
@@ -31,7 +47,7 @@ export interface ReminderTable {
 
 export interface ReminderList {
   items: ReminderItem[];
-  onAdd: (data: z.infer<typeof AddReminderFormSchema>) => void;
+  onAdd: (data: AddReminderFormType) => void;
   onEdit: (id: number, text: string) => void;
   onDelete: (id: number) => void;
 }

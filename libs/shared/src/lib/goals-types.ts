@@ -1,10 +1,18 @@
 import type { Goal, GoalUser, User } from "@prisma/client";
 import * as z from "zod";
 
-export const EditFormScheme = z.object({
+export const UpdateGoalScheme = z.object({
   title: z.string().optional(),
   description: z.string().optional(),
 });
+
+export type UpdateGoalType = z.infer<typeof UpdateGoalScheme>;
+
+export const JoinGoalScheme = z.object({
+  goalId: z.number(),
+});
+
+export type JoinGoalType = z.infer<typeof JoinGoalScheme>;
 
 export type GoalUserItem = {
   id: number;
@@ -34,7 +42,7 @@ export interface GoalT {
   };
 }
 
-export const AddGoalFormSchema = z.object({
+export const AddGoalScheme = z.object({
   title: z.string({
     required_error: "A title for the goal is required.",
   }),
@@ -43,7 +51,7 @@ export const AddGoalFormSchema = z.object({
 });
 
 export interface AddGoalProps {
-  onAdd: (data: z.infer<typeof AddGoalFormSchema>) => void;
+  onAdd: (data: z.infer<typeof AddGoalScheme>) => void;
 }
 
 export type GoalItem = {
@@ -59,5 +67,5 @@ export interface GoalTable {
 
 export interface GoalsListT {
   items: GoalItem[];
-  onAdd: (data: z.infer<typeof AddGoalFormSchema>) => void;
+  onAdd: (data: z.infer<typeof AddGoalScheme>) => void;
 }

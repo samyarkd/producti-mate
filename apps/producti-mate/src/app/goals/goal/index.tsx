@@ -3,11 +3,11 @@ import { useMainButton } from "@twa.js/sdk-react";
 import { useEffect, useState } from "react";
 
 import featureLayoutRoute from "@/app/feature-layout";
-import { GoalUserItem } from "@/components/goals/goals-types";
 import GoalData from "@/components/goals/gole/goal-data";
 import Leaderboard from "@/components/goals/gole/leaderboard";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useFinishDailyGoal, useGoal } from "@/hooks/queries/goals";
+import { GoalUserItem } from "@producti-mate/shared";
 
 function Goals() {
   const mainButton = useMainButton();
