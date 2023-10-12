@@ -384,6 +384,10 @@ scheduleJob("0 0 15 * * *", function (fireDate) {
     })
     .then((users) => {
       users.forEach(async (user) => {
+        const goalsPageBtn = new InlineKeyboard().webApp(
+          "Goals 🎯",
+          process.env.API_URL! + "/goals",
+        );
         await telBot.api.sendMessage(
           user.id,
           `
@@ -397,6 +401,9 @@ ${user.goalUsers.map((goalUser) => {
 
 Let's crush them 🫵
 `,
+          {
+            reply_markup: goalsPageBtn,
+          },
         );
       });
     })
