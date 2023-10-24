@@ -1,4 +1,5 @@
-import { ReactElement, StrictMode } from "react"
+import React from "react";
+import { StrictMode } from "react"
 import * as ReactDOM from "react-dom/client"
 
 import { RouterProvider } from "@tanstack/react-router"
@@ -26,5 +27,5 @@ root.render(
         </AxiosClient>
       </Loader>
     </SDKProvider>
-  </StrictMode> as ReactElement,
+  </StrictMode>,
 )
