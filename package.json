@@ -3,14 +3,17 @@
   "version": "0.0.0",
   "type": "module",
   "license": "MIT",
+  "private": true,
   "scripts": {
     "dev": "npx nx run-many --target=serve",
     "dev:api": "npx nx serve productimate-api",
     "dev:web": "npx nx serve producti-mate",
     "dev:bot": "npx nx serve bot",
-    "build": "npx nx run-many --target=build --parallel"
+    "build": "npx nx run-many --target=build --parallel",
+    "build:api": "npx nx build productimate-api",
+    "build:web": "npx nx build producti-mate",
+    "build:bot": "npx nx build bot"
   },
-  "private": true,
   "dependencies": {
     "@heroicons/react": "^2.0.18",
     "@hookform/resolvers": "^3.3.1",
