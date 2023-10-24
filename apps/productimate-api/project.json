@@ -6,7 +6,9 @@
   "targets": {
     "build": {
       "executor": "@nx/webpack:webpack",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "defaultConfiguration": "production",
       "options": {
         "target": "node",
@@ -14,9 +16,11 @@
         "outputPath": "dist/apps/productimate-api",
         "main": "apps/productimate-api/src/main.ts",
         "tsConfig": "apps/productimate-api/tsconfig.app.json",
-        "assets": ["apps/productimate-api/src/assets"],
+        "assets": [
+          "apps/productimate-api/src/assets"
+        ],
         "isolatedConfig": true,
-        "webpackConfig": "apps/productimate-api/webpack.config.js"
+        "webpackConfig": "apps/productimate-api/webpack.config.cjs"
       },
       "configurations": {
         "development": {},
@@ -40,14 +44,20 @@
     },
     "lint": {
       "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
+      "outputs": [
+        "{options.outputFile}"
+      ],
       "options": {
-        "lintFilePatterns": ["apps/productimate-api/**/*.ts"]
+        "lintFilePatterns": [
+          "apps/productimate-api/**/*.ts"
+        ]
       }
     },
     "test": {
       "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
       "options": {
         "jestConfig": "apps/productimate-api/jest.config.ts",
         "passWithNoTests": true
