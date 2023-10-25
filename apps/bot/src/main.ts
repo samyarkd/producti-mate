@@ -156,3 +156,5 @@ function reportError(error: any) {
 
 // Start the bot.
 bot.start()
+
+console.log("Bot is working")
