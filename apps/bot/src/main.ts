@@ -2,12 +2,7 @@ import "dotenv/config"
 
 import { prisma, telBot } from "@producti-mate/shared"
 import { InlineKeyboard } from "grammy"
-import { ImgurClient } from 'imgur'
-
-const imgur = new ImgurClient({
-  clientId: process.env.CLIENT_ID,
-  clientSecret: process.env.CLIENT_SECRET,
-})
+import { uploadImageImgur } from "./libs"
 
 const bot = telBot
 
@@ -37,13 +32,12 @@ bot.use(async (ctx, next) => {
           `https://api.telegram.org/file/bot${process.env.BOT_TOKEN}/` +
           (await ctx.api.getFile(pfpData)).file_path
 
-        const pfpUploaded = await imgur.upload({
+        // set the pfp url
+        pfpUrl = await uploadImageImgur({
           image: pfpUrlRaw,
-          type: "url",
         })
 
-        // set the pfp url
-        pfpUrl = pfpUploaded.data.link
+
 
         const WebAppBtn = new InlineKeyboard().webApp(
           "Open Mini-App",
