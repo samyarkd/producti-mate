@@ -3,7 +3,6 @@ import "dotenv/config"
 import { prisma, telBot } from "@producti-mate/shared"
 import { InlineKeyboard } from "grammy"
 import { ImgurClient } from 'imgur'
-import { serializeError } from "serialize-error"
 
 const imgur = new ImgurClient({
   clientId: process.env.CLIENT_ID,
@@ -68,9 +67,7 @@ bot.use(async (ctx, next) => {
           }
         }
       } catch (error) {
-        const errorStr = serializeError(error)
-
-        reportError("51:" + JSON.stringify(errorStr))
+        //
       }
 
       await prisma.user.upsert({
@@ -141,10 +138,7 @@ bot.use(async (ctx, next) => {
       }
     }
   } catch (error) {
-    console.log(error)
-    const errorStr = serializeError(error)
-
-    reportError("115: " + JSON.stringify(errorStr))
+    //
   }
   return next()
 })
