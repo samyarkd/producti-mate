@@ -5,27 +5,27 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import { cn } from "@/lib/utils";
+} from "@/components/ui/table"
+import { cn } from "@/lib/utils"
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
-import { useSendInviteLink } from "@/hooks/queries/goals";
-import { Goal } from "@prisma/client";
-import { GoalUserTable, GoalUsersListT } from "@producti-mate/shared";
+} from "@/components/ui/popover"
+import { useSendInviteLink } from "@/hooks/queries/goals"
+import { GoalUserTable, GoalUsersListT } from "@pm/types"
+import { Goal } from "@prisma/client"
 
 const ShareGoal = (props: { goal?: Goal }) => {
-  const invitation = useSendInviteLink();
+  const invitation = useSendInviteLink()
 
   return (
     <Popover>
       <PopoverTrigger
         onClick={() => {
-          props?.goal?.id && invitation.mutate(props?.goal?.id);
+          props?.goal?.id && invitation.mutate(props?.goal?.id)
         }}
       >
         Share the goal with a friend
@@ -35,8 +35,8 @@ const ShareGoal = (props: { goal?: Goal }) => {
         your friends in Telegram.
       </PopoverContent>
     </Popover>
-  );
-};
+  )
+}
 
 function LeaderboardTable(props: GoalUserTable) {
   // Render the item based on the editing mode
@@ -64,7 +64,7 @@ function LeaderboardTable(props: GoalUserTable) {
         ))}
       </TableBody>
     </Table>
-  );
+  )
 }
 
 function Leaderboard(props: GoalUsersListT) {
@@ -74,7 +74,7 @@ function Leaderboard(props: GoalUsersListT) {
 
       <ShareGoal goal={props.goal} />
     </div>
-  );
+  )
 }
 
-export default Leaderboard;
+export default Leaderboard

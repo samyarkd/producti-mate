@@ -1,10 +1,10 @@
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { useState } from "react";
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { useState } from "react"
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import * as z from "zod";
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
+import * as z from "zod"
 
 import {
   Form,
@@ -12,20 +12,20 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Textarea } from "@/components/ui/textarea";
-import { AddGoalProps, AddGoalScheme } from "@producti-mate/shared";
+} from "@/components/ui/form"
+import { Textarea } from "@/components/ui/textarea"
+import { AddGoalProps, AddGoalScheme } from "@pm/types"
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "../ui/dialog";
-import { Switch } from "../ui/switch";
+} from "../ui/dialog"
+import { Switch } from "../ui/switch"
 
 const AddGoal = (props: AddGoalProps) => {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false)
 
   const form = useForm<z.infer<typeof AddGoalScheme>>({
     resolver: zodResolver(AddGoalScheme),
@@ -34,19 +34,19 @@ const AddGoal = (props: AddGoalProps) => {
       description: "",
       isPrivate: true,
     },
-  });
+  })
 
   function onSubmit(data: z.infer<typeof AddGoalScheme>) {
-    props.onAdd(data);
-    form.reset();
-    setOpen(false);
+    props.onAdd(data)
+    form.reset()
+    setOpen(false)
   }
 
   return (
     <Dialog open={open} modal onOpenChange={(open) => setOpen(open)}>
       <DialogTrigger
         onClick={() => {
-          setOpen(true);
+          setOpen(true)
         }}
       >
         Add a New Goal
@@ -114,7 +114,7 @@ const AddGoal = (props: AddGoalProps) => {
         </Form>
       </DialogContent>
     </Dialog>
-  );
-};
+  )
+}
 
-export default AddGoal;
+export default AddGoal

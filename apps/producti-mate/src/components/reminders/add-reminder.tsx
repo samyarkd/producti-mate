@@ -1,15 +1,15 @@
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { cn } from "@/lib/utils";
-import { useState } from "react";
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { cn } from "@/lib/utils"
+import { useState } from "react"
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { CalendarIcon } from "@radix-ui/react-icons";
-import { format } from "date-fns";
-import { useForm } from "react-hook-form";
-import * as z from "zod";
+import { zodResolver } from "@hookform/resolvers/zod"
+import { CalendarIcon } from "@radix-ui/react-icons"
+import { format } from "date-fns"
+import { useForm } from "react-hook-form"
+import * as z from "zod"
 
-import { Calendar } from "@/components/ui/calendar";
+import { Calendar } from "@/components/ui/calendar"
 import {
   Form,
   FormControl,
@@ -18,46 +18,46 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
+} from "@/components/ui/form"
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
-import { Textarea } from "@/components/ui/textarea";
-import { AddReminderFormSchema, AddReminderProps } from "@producti-mate/shared";
-import "react-clock/dist/Clock.css";
-import "react-time-picker/dist/TimePicker.css";
+} from "@/components/ui/popover"
+import { Textarea } from "@/components/ui/textarea"
+import { AddReminderFormSchema, AddReminderProps } from "@pm/types"
+import "react-clock/dist/Clock.css"
+import "react-time-picker/dist/TimePicker.css"
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "../ui/dialog";
+} from "../ui/dialog"
 
 const AddReminder = (props: AddReminderProps) => {
-  const [dateOpen, setDateOpen] = useState(false);
-  const [open, setOpen] = useState(false);
+  const [dateOpen, setDateOpen] = useState(false)
+  const [open, setOpen] = useState(false)
 
   const form = useForm<z.infer<typeof AddReminderFormSchema>>({
     resolver: zodResolver(AddReminderFormSchema),
     defaultValues: {
       reminder: "",
     },
-  });
+  })
 
   function onSubmit(data: z.infer<typeof AddReminderFormSchema>) {
-    props.onAdd(data);
-    form.reset();
-    setOpen(false);
+    props.onAdd(data)
+    form.reset()
+    setOpen(false)
   }
 
   return (
     <Dialog modal open={open} onOpenChange={(open) => setOpen(open)}>
       <DialogTrigger
         onClick={() => {
-          setOpen(true);
+          setOpen(true)
         }}
       >
         Add a New Reminder
@@ -83,7 +83,7 @@ const AddReminder = (props: AddReminderProps) => {
                       <FormControl>
                         <Button
                           onClick={() => {
-                            setDateOpen(true);
+                            setDateOpen(true)
                           }}
                           variant={"outline"}
                           className={cn(
@@ -105,13 +105,13 @@ const AddReminder = (props: AddReminderProps) => {
                         mode="single"
                         selected={field.value}
                         onSelect={(date) => {
-                          field.onChange(date);
-                          setDateOpen(false);
+                          field.onChange(date)
+                          setDateOpen(false)
                         }}
                         disabled={(date) => {
-                          const today = new Date();
-                          today.setHours(0, 0, 0, 0);
-                          return date < today;
+                          const today = new Date()
+                          today.setHours(0, 0, 0, 0)
+                          return date < today
                         }}
                         initialFocus
                       />
@@ -124,17 +124,17 @@ const AddReminder = (props: AddReminderProps) => {
                     onChange={(time) => {
                       // handle if the time i cleared
                       if (!time.target.value) {
-                        field.onChange(null);
-                        return;
+                        field.onChange(null)
+                        return
                       }
-                      const [hours, minutes] = time.target.value.split(":");
-                      const date = field.value || new Date();
-                      date.setHours(parseInt(hours));
-                      date.setMinutes(parseInt(minutes));
-                      field.onChange(date);
+                      const [hours, minutes] = time.target.value.split(":")
+                      const date = field.value || new Date()
+                      date.setHours(parseInt(hours))
+                      date.setMinutes(parseInt(minutes))
+                      field.onChange(date)
                     }}
-                    // i want the time to be invalid if it's before now
-                    // min={format(new Date(), "HH:mm")}
+                  // i want the time to be invalid if it's before now
+                  // min={format(new Date(), "HH:mm")}
                   />
                   <FormDescription>
                     You will get the reminder message in this date
@@ -166,7 +166,7 @@ const AddReminder = (props: AddReminderProps) => {
         </Form>
       </DialogContent>
     </Dialog>
-  );
-};
+  )
+}
 
-export default AddReminder;
+export default AddReminder

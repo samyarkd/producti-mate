@@ -1,15 +1,15 @@
-import { EditGoalProps, GoalT, UpdateGoalScheme } from "@producti-mate/shared";
-import { useRouter } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { EditGoalProps, GoalT, UpdateGoalScheme } from "@pm/types"
+import { useRouter } from "@tanstack/react-router"
+import { useEffect, useState } from "react"
 
-import { Button, ButtonWithConfirm } from "@/components/ui/button";
+import { Button, ButtonWithConfirm } from "@/components/ui/button"
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
+} from "@/components/ui/dialog"
 import {
   Form,
   FormDescription,
@@ -17,20 +17,20 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Separator } from "@/components/ui/separator";
-import { Textarea } from "@/components/ui/textarea";
-import { useDeleteGoal, useUpdateGoal } from "@/hooks/queries/goals";
-import { zodResolver } from "@hookform/resolvers/zod";
-import "react-clock/dist/Clock.css";
-import { useForm } from "react-hook-form";
-import "react-time-picker/dist/TimePicker.css";
-import * as z from "zod";
+} from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
+import { Separator } from "@/components/ui/separator"
+import { Textarea } from "@/components/ui/textarea"
+import { useDeleteGoal, useUpdateGoal } from "@/hooks/queries/goals"
+import { zodResolver } from "@hookform/resolvers/zod"
+import "react-clock/dist/Clock.css"
+import { useForm } from "react-hook-form"
+import "react-time-picker/dist/TimePicker.css"
+import * as z from "zod"
 
 const EditGoal = (props: EditGoalProps) => {
-  const [open, setOpen] = useState(false);
-  const updateGoal = useUpdateGoal();
+  const [open, setOpen] = useState(false)
+  const updateGoal = useUpdateGoal()
 
   const form = useForm<z.infer<typeof UpdateGoalScheme>>({
     resolver: zodResolver(UpdateGoalScheme),
@@ -38,35 +38,35 @@ const EditGoal = (props: EditGoalProps) => {
       title: "",
       description: "",
     },
-  });
+  })
 
   function onSubmit(data: z.infer<typeof UpdateGoalScheme>) {
     if (props.goalUser?.goal.id) {
       updateGoal.mutate({
         data,
         id: props.goalUser?.goal.id,
-      });
+      })
     }
-    form.reset();
-    setOpen(false);
+    form.reset()
+    setOpen(false)
   }
 
   useEffect(() => {
     if (props.goalUser?.goal?.description) {
-      form.setValue("description", props.goalUser?.goal?.description);
+      form.setValue("description", props.goalUser?.goal?.description)
     }
 
     if (props.goalUser?.goal.title) {
-      form.setValue("title", props.goalUser?.goal.title);
+      form.setValue("title", props.goalUser?.goal.title)
     }
-  }, [props.goalUser?.goal.title, props.goalUser?.goal.description]);
+  }, [props.goalUser?.goal.title, props.goalUser?.goal.description])
 
   return (
     <Dialog modal open={open} onOpenChange={(open) => setOpen(open)}>
       <DialogTrigger
         asChild
         onClick={() => {
-          setOpen(true);
+          setOpen(true)
         }}
       >
         <Button className="w-full">Edit</Button>
@@ -118,12 +118,12 @@ const EditGoal = (props: EditGoalProps) => {
         </Form>
       </DialogContent>
     </Dialog>
-  );
-};
+  )
+}
 
 function GoalData({ goalUser }: GoalT) {
-  const deleteGoal = useDeleteGoal();
-  const router = useRouter();
+  const deleteGoal = useDeleteGoal()
+  const router = useRouter()
 
   return (
     <div className="space-y-4">
@@ -140,8 +140,8 @@ function GoalData({ goalUser }: GoalT) {
               onConfirm={() => {
                 if (goalUser?.goal.id) {
                   deleteGoal.mutateAsync(goalUser?.goal.id).finally(() => {
-                    router.navigate({ to: "/goals" });
-                  });
+                    router.navigate({ to: "/goals" })
+                  })
                 }
               }}
               className="w-full"
@@ -153,7 +153,7 @@ function GoalData({ goalUser }: GoalT) {
         </>
       )}
     </div>
-  );
+  )
 }
 
-export default GoalData;
+export default GoalData

@@ -9,6 +9,9 @@
       ],
       "@producti-mate/shared": [
         "../../../libs/shared/src/index"
+      ],
+      "@pm/types": [
+        "../../../libs/types/src/index"
       ]
     },
     "esModuleInterop": false,

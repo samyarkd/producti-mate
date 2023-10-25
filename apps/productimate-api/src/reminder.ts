@@ -12,17 +12,20 @@
 import {
   AddReminderScheme,
   ReminderSchemeUpdate,
+} from "@pm/types"
+
+import {
   prisma,
   telBot,
-} from "@producti-mate/shared";
-import { Router } from "express";
-import schedule from "node-schedule";
+} from "@producti-mate/shared"
+import { Router } from "express"
+import schedule from "node-schedule"
 
-export const reminderRouter = Router();
+export const reminderRouter = Router()
 
 reminderRouter.get("/", (req, res) => {
-  const authHeader = req.headers["authorization"];
-  const userId = authHeader && authHeader.split(" ")[1];
+  const authHeader = req.headers["authorization"]
+  const userId = authHeader && authHeader.split(" ")[1]
 
   prisma.reminders
     .findMany({
@@ -31,16 +34,16 @@ reminderRouter.get("/", (req, res) => {
       },
     })
     .then((reminders) => {
-      res.json(reminders);
+      res.json(reminders)
     })
     .catch((err) => {
-      res.status(500).json({ error: err });
-    });
-});
+      res.status(500).json({ error: err })
+    })
+})
 
 reminderRouter.get("/:id", (req, res) => {
-  const authHeader = req.headers["authorization"];
-  const userId = authHeader && authHeader.split(" ")[1];
+  const authHeader = req.headers["authorization"]
+  const userId = authHeader && authHeader.split(" ")[1]
 
   prisma.reminders
     .findUnique({
@@ -51,27 +54,27 @@ reminderRouter.get("/:id", (req, res) => {
     })
     .then((reminder) => {
       if (reminder) {
-        res.json(reminder);
+        res.json(reminder)
       } else {
-        res.status(404).json({ message: "reminder not found" });
+        res.status(404).json({ message: "reminder not found" })
       }
     })
     .catch((err) => {
-      res.status(500).json({ error: err });
-    });
-});
+      res.status(500).json({ error: err })
+    })
+})
 
 reminderRouter.post("/add", (req, res) => {
-  const authHeader = req.headers["authorization"];
-  const userId = authHeader && authHeader.split(" ")[1];
+  const authHeader = req.headers["authorization"]
+  const userId = authHeader && authHeader.split(" ")[1]
 
-  const reminder = AddReminderScheme.safeParse(req.body);
+  const reminder = AddReminderScheme.safeParse(req.body)
 
   if (!reminder.success) {
     res
       .status(400)
-      .json({ message: "Bad request data is invalid", data: req.body });
-    return;
+      .json({ message: "Bad request data is invalid", data: req.body })
+    return
   }
 
   const sm = schedule.scheduleJob(
@@ -81,13 +84,13 @@ reminderRouter.post("/add", (req, res) => {
         await telBot.api.sendMessage(
           userId,
           "Reminder: \n\n" + reminder.data.title,
-        );
-        console.log("The world is going to end today.");
+        )
+        console.log("The world is going to end today.")
       } catch (error) {
-        console.log("89 re" + error);
+        console.log("89 re" + error)
       }
     },
-  );
+  )
 
   prisma.reminders
     .create({
@@ -99,27 +102,27 @@ reminderRouter.post("/add", (req, res) => {
       },
     })
     .then((reminder) => {
-      res.json(reminder);
+      res.json(reminder)
     })
     .catch((err) => {
-      res.status(500).json({ error: err });
-    });
-});
+      res.status(500).json({ error: err })
+    })
+})
 
 reminderRouter.put("/:id", (req, res) => {
-  const authHeader = req.headers["authorization"];
-  const userId = authHeader && authHeader.split(" ")[1];
+  const authHeader = req.headers["authorization"]
+  const userId = authHeader && authHeader.split(" ")[1]
 
-  const reminder = ReminderSchemeUpdate.safeParse(req.body);
+  const reminder = ReminderSchemeUpdate.safeParse(req.body)
 
   if (!reminder.success) {
     res
       .status(400)
-      .json({ message: "Bad request data is invalid", data: req.body });
-    return;
+      .json({ message: "Bad request data is invalid", data: req.body })
+    return
   }
 
-  const reminderId = parseInt(req.params.id);
+  const reminderId = parseInt(req.params.id)
   // check if it exists
   prisma.reminders
     .findUnique({
@@ -130,13 +133,13 @@ reminderRouter.put("/:id", (req, res) => {
     })
     .then((reminder) => {
       if (!reminder) {
-        res.status(404).json({ message: "reminder not found" });
-        return;
+        res.status(404).json({ message: "reminder not found" })
+        return
       }
     })
     .catch((err) => {
-      res.status(500).json({ error: err });
-    });
+      res.status(500).json({ error: err })
+    })
 
   prisma.reminders
     .update({
@@ -152,18 +155,18 @@ reminderRouter.put("/:id", (req, res) => {
       },
     })
     .then((reminder) => {
-      res.json(reminder);
+      res.json(reminder)
     })
     .catch((err) => {
-      res.status(500).json({ error: err });
-    });
-});
+      res.status(500).json({ error: err })
+    })
+})
 
 reminderRouter.delete("/:id", (req, res) => {
-  const authHeader = req.headers["authorization"];
-  const userId = authHeader && authHeader.split(" ")[1];
+  const authHeader = req.headers["authorization"]
+  const userId = authHeader && authHeader.split(" ")[1]
 
-  const reminderId = parseInt(req.params.id);
+  const reminderId = parseInt(req.params.id)
   // check if it exists
   prisma.reminders
     .findUnique({
@@ -173,15 +176,15 @@ reminderRouter.delete("/:id", (req, res) => {
       },
     })
     .then((reminder) => {
-      schedule.cancelJob(reminder.body);
+      schedule.cancelJob(reminder.body)
       if (!reminder) {
-        res.status(404).json({ message: "reminder not found" });
-        return;
+        res.status(404).json({ message: "reminder not found" })
+        return
       }
     })
     .catch((err) => {
-      res.status(500).json({ error: err });
-    });
+      res.status(500).json({ error: err })
+    })
 
   prisma.reminders
     .delete({
@@ -190,9 +193,9 @@ reminderRouter.delete("/:id", (req, res) => {
       },
     })
     .then(() => {
-      res.json({ message: "reminder deleted" });
+      res.json({ message: "reminder deleted" })
     })
     .catch((err) => {
-      res.status(500).json({ error: err });
-    });
-});
+      res.status(500).json({ error: err })
+    })
+})

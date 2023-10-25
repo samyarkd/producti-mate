@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button"
 import {
   Table,
   TableBody,
@@ -7,13 +7,13 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import { cn } from "@/lib/utils";
-import { Link } from "@tanstack/react-router";
+} from "@/components/ui/table"
+import { cn } from "@/lib/utils"
+import { Link } from "@tanstack/react-router"
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { GoalTable, GoalsListT } from "@producti-mate/shared";
-import AddGoal from "./add-goal";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { GoalTable, GoalsListT } from "@pm/types"
+import AddGoal from "./add-goal"
 
 function GoalsTable(props: GoalTable) {
   // Render the item based on the editing mode
@@ -61,7 +61,7 @@ function GoalsTable(props: GoalTable) {
         ))}
       </TableBody>
     </Table>
-  );
+  )
 }
 
 function GoalsList(props: GoalsListT) {
@@ -71,7 +71,7 @@ function GoalsList(props: GoalsListT) {
 
       <AddGoal onAdd={props.onAdd} />
     </div>
-  );
+  )
 }
 
-export default GoalsList;
+export default GoalsList

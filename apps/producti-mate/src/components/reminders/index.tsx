@@ -3,9 +3,9 @@
  * Reminders list is a table and a form to add new reminders.
  */
 
-import type { ReminderList } from "@producti-mate/shared";
-import AddReminder from "./add-reminder";
-import RemindersTable from "./reminders-table";
+import type { ReminderList } from "@pm/types"
+import AddReminder from "./add-reminder"
+import RemindersTable from "./reminders-table"
 
 function Reminders(props: ReminderList) {
   return (
@@ -18,7 +18,7 @@ function Reminders(props: ReminderList) {
 
       <AddReminder onAdd={props.onAdd} />
     </div>
-  );
+  )
 }
 
-export default Reminders;
+export default Reminders

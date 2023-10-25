@@ -13,18 +13,21 @@ import {
   AddGoalScheme,
   JoinGoalScheme,
   UpdateGoalScheme,
+} from "@pm/types"
+
+import {
   prisma,
   telBot,
-} from "@producti-mate/shared";
-import { Router } from "express";
-import { InlineKeyboard } from "grammy";
-import { scheduleJob } from "node-schedule";
+} from "@producti-mate/shared"
+import { Router } from "express"
+import { InlineKeyboard } from "grammy"
+import { scheduleJob } from "node-schedule"
 
-export const goalsRouter = Router();
+export const goalsRouter = Router()
 
 goalsRouter.get("/", (req, res) => {
-  const authHeader = req.headers["authorization"];
-  const userId = authHeader && authHeader.split(" ")[1];
+  const authHeader = req.headers["authorization"]
+  const userId = authHeader && authHeader.split(" ")[1]
 
   prisma.goalUser
     .findMany({
@@ -40,16 +43,16 @@ goalsRouter.get("/", (req, res) => {
       },
     })
     .then((goals) => {
-      res.json(goals);
+      res.json(goals)
     })
     .catch((err) => {
-      res.status(500).json({ error: err });
-    });
-});
+      res.status(500).json({ error: err })
+    })
+})
 
 goalsRouter.get("/public", (req, res) => {
-  const authHeader = req.headers["authorization"];
-  const userId = authHeader && authHeader.split(" ")[1];
+  const authHeader = req.headers["authorization"]
+  const userId = authHeader && authHeader.split(" ")[1]
 
   prisma.goal
     .findMany({
@@ -68,16 +71,16 @@ goalsRouter.get("/public", (req, res) => {
       },
     })
     .then((goals) => {
-      res.json(goals);
+      res.json(goals)
     })
     .catch((err) => {
-      res.status(500).json({ error: err });
-    });
-});
+      res.status(500).json({ error: err })
+    })
+})
 
 goalsRouter.get("/:id", (req, res) => {
-  const authHeader = req.headers["authorization"];
-  const userId = authHeader && authHeader.split(" ")[1];
+  const authHeader = req.headers["authorization"]
+  const userId = authHeader && authHeader.split(" ")[1]
 
   prisma.goalUser
     .findUnique({
@@ -95,24 +98,24 @@ goalsRouter.get("/:id", (req, res) => {
     })
     .then((goal) => {
       if (goal) {
-        res.json(goal);
+        res.json(goal)
       } else {
-        res.status(404).json({ message: "goal not found" });
+        res.status(404).json({ message: "goal not found" })
       }
     })
     .catch((err) => {
-      res.status(500).json({ error: err });
-    });
-});
+      res.status(500).json({ error: err })
+    })
+})
 
 goalsRouter.post("/add", (req, res) => {
-  const authHeader = req.headers["authorization"];
-  const userId = authHeader && authHeader.split(" ")[1];
+  const authHeader = req.headers["authorization"]
+  const userId = authHeader && authHeader.split(" ")[1]
 
-  const goal = AddGoalScheme.safeParse(req.body);
+  const goal = AddGoalScheme.safeParse(req.body)
   if (!goal.success) {
-    res.status(400).json({ error: "Bad data" });
-    return;
+    res.status(400).json({ error: "Bad data" })
+    return
   }
 
   prisma.goal
@@ -136,25 +139,25 @@ goalsRouter.post("/add", (req, res) => {
           },
         })
         .then((goalUser) => {
-          res.json(goalUser);
+          res.json(goalUser)
         })
         .catch((err) => {
-          res.status(500).json({ error: err });
-        });
+          res.status(500).json({ error: err })
+        })
     })
     .catch((err) => {
-      res.status(500).json({ error: err });
-    });
-});
+      res.status(500).json({ error: err })
+    })
+})
 
 goalsRouter.post("/join", async (req, res) => {
-  const authHeader = req.headers["authorization"];
-  const userId = authHeader && authHeader.split(" ")[1];
+  const authHeader = req.headers["authorization"]
+  const userId = authHeader && authHeader.split(" ")[1]
 
-  const joinGame = JoinGoalScheme.safeParse(req.body);
+  const joinGame = JoinGoalScheme.safeParse(req.body)
   if (!joinGame.success) {
-    res.status(400).json({ error: "Bad data" });
-    return;
+    res.status(400).json({ error: "Bad data" })
+    return
   }
 
   try {
@@ -164,10 +167,10 @@ goalsRouter.post("/join", async (req, res) => {
         goalId: joinGame.data.goalId,
         userId,
       },
-    });
+    })
 
     if (goalUser) {
-      return res.json(goalUser);
+      return res.json(goalUser)
     }
 
     const joinGoal = await prisma.goalUser.create({
@@ -175,20 +178,20 @@ goalsRouter.post("/join", async (req, res) => {
         goalId: joinGame.data.goalId,
         userId,
       },
-    });
-    return res.json(joinGoal);
+    })
+    return res.json(joinGoal)
   } catch (error) {
-    return res.status(500).json({ error: error });
+    return res.status(500).json({ error: error })
   }
-});
+})
 
 goalsRouter.put("/:id", (req, res) => {
-  const authHeader = req.headers["authorization"];
-  const userId = authHeader && authHeader.split(" ")[1];
-  const goal = UpdateGoalScheme.safeParse(req.body);
+  const authHeader = req.headers["authorization"]
+  const userId = authHeader && authHeader.split(" ")[1]
+  const goal = UpdateGoalScheme.safeParse(req.body)
   if (!goal.success) {
-    res.status(400).json({ error: "Bad data" });
-    return;
+    res.status(400).json({ error: "Bad data" })
+    return
   }
 
   prisma.goalUser
@@ -210,20 +213,20 @@ goalsRouter.put("/:id", (req, res) => {
           },
         })
         .then(() => {
-          res.json(goalUser);
+          res.json(goalUser)
         })
         .catch((err) => {
-          res.status(500).json({ error: err });
-        });
+          res.status(500).json({ error: err })
+        })
     })
     .catch((err) => {
-      res.status(500).json({ error: err });
-    });
-});
+      res.status(500).json({ error: err })
+    })
+})
 
 goalsRouter.delete("/:id", (req, res) => {
-  const authHeader = req.headers["authorization"];
-  const userId = authHeader && authHeader.split(" ")[1];
+  const authHeader = req.headers["authorization"]
+  const userId = authHeader && authHeader.split(" ")[1]
 
   prisma.goalUser
     .deleteMany({
@@ -239,17 +242,17 @@ goalsRouter.delete("/:id", (req, res) => {
           },
         })
         .then((goal) => {
-          res.json(goal);
+          res.json(goal)
         })
         .catch((err) => {
-          res.status(500).json({ error: err });
-        });
-    });
-});
+          res.status(500).json({ error: err })
+        })
+    })
+})
 
 goalsRouter.get("/add/user/:id", (req, res) => {
-  const authHeader = req.headers["authorization"];
-  const userId = authHeader && authHeader.split(" ")[1];
+  const authHeader = req.headers["authorization"]
+  const userId = authHeader && authHeader.split(" ")[1]
 
   prisma.goalUser
     .findFirst({
@@ -266,13 +269,13 @@ goalsRouter.get("/add/user/:id", (req, res) => {
       if (!gu) {
         return res.status(404).json({
           message: "The goal not found",
-        });
+        })
       }
 
       const inviteBtn = new InlineKeyboard().url(
         "Accept invitation ✅",
         `https://t.me/ProductiMatebot?start=gi=${gu.goalId}`,
-      );
+      )
       telBot.api
         .sendMessage(
           gu.user.id,
@@ -296,25 +299,25 @@ Click on the bellow button to accept the invitation.
               `Forwared the above message with your friends to invite them to your goal. 👆👆`,
             )
             .finally(() => {
-              res.json({ message: "invitation sent" });
-            });
+              res.json({ message: "invitation sent" })
+            })
         })
         .catch((err) => {
-          console.error(err);
+          console.error(err)
 
-          res.status(500).json({ error: JSON.stringify(err) });
-        });
+          res.status(500).json({ error: JSON.stringify(err) })
+        })
     })
     .catch((err) => {
-      console.error(err);
+      console.error(err)
 
-      res.status(500).json({ error: JSON.stringify(err) });
-    });
-});
+      res.status(500).json({ error: JSON.stringify(err) })
+    })
+})
 
 goalsRouter.put("/finish/:id", (req, res) => {
-  const authHeader = req.headers["authorization"];
-  const userId = authHeader && authHeader.split(" ")[1];
+  const authHeader = req.headers["authorization"]
+  const userId = authHeader && authHeader.split(" ")[1]
 
   prisma.goalUser
     .findUnique({
@@ -326,9 +329,9 @@ goalsRouter.put("/finish/:id", (req, res) => {
       if (
         goalUser.lastFinish &&
         new Date(goalUser.lastFinish).toDateString() ===
-          new Date().toDateString()
+        new Date().toDateString()
       ) {
-        res.json(goalUser);
+        res.json(goalUser)
       } else {
         prisma.goalUser
           .update({
@@ -344,17 +347,17 @@ goalsRouter.put("/finish/:id", (req, res) => {
             },
           })
           .then((goalUser) => {
-            res.json(goalUser);
+            res.json(goalUser)
           })
           .catch((err) => {
-            res.status(500).json({ error: err });
-          });
+            res.status(500).json({ error: err })
+          })
       }
     })
     .catch((err) => {
-      res.status(500).json({ error: err });
-    });
-});
+      res.status(500).json({ error: err })
+    })
+})
 
 /**
  * Schedule a job to run at 3 pm every day
@@ -387,7 +390,7 @@ scheduleJob("0 0 15 * * *", function (fireDate) {
         const goalsPageBtn = new InlineKeyboard().webApp(
           "Goals 🎯",
           process.env.API_URL! + "/goals",
-        );
+        )
         await telBot.api.sendMessage(
           user.id,
           `
@@ -396,18 +399,18 @@ What's up mate? 🤨 Im here to remind you about something important
 In order to progress you should complete small steps each day 😀 so here are your daily goals and make sure to finish them 💪:
 
 ${user.goalUsers.map((goalUser) => {
-  return `• ${goalUser.goal.title} (${goalUser.exp} exp) \n\n`;
-})}
+            return `• ${goalUser.goal.title} (${goalUser.exp} exp) \n\n`
+          })}
 
 Let's crush them 🫵
 `,
           {
             reply_markup: goalsPageBtn,
           },
-        );
-      });
+        )
+      })
     })
     .catch((err) => {
-      console.error(err);
-    });
-});
+      console.error(err)
+    })
+})

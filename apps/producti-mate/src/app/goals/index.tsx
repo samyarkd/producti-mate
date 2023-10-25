@@ -1,30 +1,30 @@
-import { Route } from "@tanstack/react-router";
-import { useMainButton } from "@twa.js/sdk-react";
-import { useEffect, useState } from "react";
-import featureLayoutRoute from "../feature-layout";
+import { Route } from "@tanstack/react-router"
+import { useMainButton } from "@twa.js/sdk-react"
+import { useEffect, useState } from "react"
+import featureLayoutRoute from "../feature-layout"
 
-import * as z from "zod";
+import * as z from "zod"
 
-import GoalsList from "@/components/goals/goals-table";
-import { useAddGoal, useGoals } from "@/hooks/queries/goals";
-import { AddGoalScheme, GoalItem } from "@producti-mate/shared";
-import goalRoute from "./goal";
+import GoalsList from "@/components/goals/goals-table"
+import { useAddGoal, useGoals } from "@/hooks/queries/goals"
+import { AddGoalScheme, GoalItem } from "@pm/types"
+import goalRoute from "./goal"
 
 function Goals() {
-  const mainButton = useMainButton();
-  const [goals, setGoals] = useState<GoalItem[]>([]);
+  const mainButton = useMainButton()
+  const [goals, setGoals] = useState<GoalItem[]>([])
 
-  const getGoals = useGoals();
-  const addGoal = useAddGoal();
+  const getGoals = useGoals()
+  const addGoal = useAddGoal()
 
   // if the date in the local storage is not today, clear the list
   function setItems(items: GoalItem[]) {
-    setGoals(items);
+    setGoals(items)
   }
 
   // A function to handle the submission of a new item
   async function handleAdd(data: z.infer<typeof AddGoalScheme>) {
-    const res = await addGoal.mutateAsync(data);
+    const res = await addGoal.mutateAsync(data)
 
     setItems([
       ...goals,
@@ -34,7 +34,7 @@ function Goals() {
         exp: res.data.exp || 0,
         users: res.data.goal.users,
       },
-    ]);
+    ])
   }
 
   useEffect(() => {
@@ -46,27 +46,27 @@ function Goals() {
           exp: goalUser.exp || 0,
           users: goalUser.goal.users,
         })),
-      );
+      )
     }
 
     return () => {
-      mainButton.disable().hide();
-    };
-  }, [getGoals.data]);
+      mainButton.disable().hide()
+    }
+  }, [getGoals.data])
 
   return (
     <div className="app">
       <GoalsList items={goals} onAdd={handleAdd} />
     </div>
-  );
+  )
 }
 
 const goalsRoute = new Route({
   getParentRoute: () => featureLayoutRoute,
   path: "/goals",
   component: Goals,
-});
+})
 
-const GoalAndGoals = goalsRoute.addChildren([goalRoute]);
+const GoalAndGoals = goalsRoute.addChildren([goalRoute])
 
-export default GoalAndGoals;
+export default GoalAndGoals
