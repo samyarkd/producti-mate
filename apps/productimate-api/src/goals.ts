@@ -391,6 +391,8 @@ scheduleJob("0 0 15 * * *", function (fireDate) {
           "Goals 🎯",
           process.env.API_URL! + "/goals",
         )
+
+
         await telBot.api.sendMessage(
           user.id,
           `
@@ -399,8 +401,8 @@ What's up mate? 🤨 Im here to remind you about something important
 In order to progress you should complete small steps each day 😀 so here are your daily goals and make sure to finish them 💪:
 
 ${user.goalUsers.map((goalUser) => {
-            return `• ${goalUser.goal.title} (${goalUser.exp} exp) \n\n`
-          })}
+            return `• ${goalUser.goal.title} (${goalUser.exp} exp)`
+          }).join("\n\n")}
 
 Let's crush them 🫵
 `,
